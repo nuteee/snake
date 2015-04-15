@@ -1,30 +1,9 @@
 package pkg;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.security.GeneralSecurityException;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
-
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
+import javax.swing.*;
 
 /**
  * Main class where everything happens
@@ -35,20 +14,47 @@ import javax.swing.border.EmptyBorder;
 public class Main extends JComponent {
 
 	/**
-	 * Creating the constants
+	 * Serial Version UID
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * The size of the window
 	 */
 	public static final Integer window_size = 700;
+	/**
+	 * The main board
+	 */
 	public static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
+	/**
+	 * The timer used for measuring the in-game time
+	 */
 	public static Double timer = 0.0;
+	/**
+	 * The boolean for deciding if we are in-game
+	 */
 	public static Boolean inGame = false;
+	/**
+	 * The boolean for deciding if we are heading left
+	 */
 	public static Boolean leftDirection = false;
+	/**
+	 * The boolean for deciding if we are heading right
+	 */
 	public static Boolean rightDirection = true;
+	/**
+	 * The boolean for deciding if we are heading up
+	 */
 	public static Boolean upDirection = false;
+	/**
+	 * The boolean for deciding if we are heading down
+	 */
 	public static Boolean downDirection = false;
 
 	/**
-	 * Class for the cells. Values: 0 - empty, 1 - Contains a part of the snake,
-	 * 2 - Contains the food to be eaten, 3 - Contains a part of a obstacle
+	 * Class for the cells.
+	 * 
+	 * Values: 0 - empty, 1 - Contains a part of the snake, 2 - Contains the
+	 * food to be eaten, 3 - Contains a part of a obstacle
 	 */
 	public static class Cell {
 		private int value;
@@ -368,10 +374,10 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Initialize and launch the application
+	 * Initializes and launch the application
 	 * 
 	 * @throws InterruptedException
-	 *             if a thread is interrupted
+	 *             if the thread is interrupted
 	 * @param args
 	 *            basic stuff.
 	 */
@@ -397,9 +403,7 @@ public class Main extends JComponent {
 
 		window.setTitle("Sneak by Gergő Balkus");
 		while (true) {
-			if (!inGame)
-				;
-			else {
+			if (inGame) {
 				timer += 0.1;
 				window.setTitle(String.format("Time: %.1fs", timer));
 				try {

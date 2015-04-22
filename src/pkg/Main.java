@@ -3,7 +3,11 @@ package pkg;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Main class where everything happens
@@ -14,9 +18,13 @@ import javax.swing.*;
 public class Main extends JComponent {
 
 	/**
+	 * The Logback logger
+	 */
+	private static Logger logger = LoggerFactory.getLogger(Main.class);
+	/**
 	 * Serial Version UID
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1337L;
 	/**
 	 * The size of the window
 	 */

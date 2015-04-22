@@ -21,25 +21,39 @@
 		<mainClass>pkg.Main</mainClass>
 	</properties>
 	<dependencies>
- 		<dependency>
+		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.1</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 	<distributionManagement>
-		<!--
-    	<repository>
-      		<id>internal</id>
-     		<url>http://127.0.0.1:8080/repository/internal/</url>
-    	</repository>
-    	-->
-    	<snapshotRepository>
-      		<id>snapshots</id>
-      		<url>http://127.0.0.1:8080/repository/snapshots/</url>
-    	</snapshotRepository>
-  	</distributionManagement>
+		<!-- <repository> <id>internal</id> <url>http://127.0.0.1:8080/repository/internal/</url> 
+			</repository> -->
+		<snapshotRepository>
+			<id>snapshots</id>
+			<url>http://127.0.0.1:8080/repository/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -83,6 +97,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.2</version>
+				<configuration>
+					<locale>en_US</locale>
+				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>

@@ -150,7 +150,7 @@ public class Main extends JComponent {
 	 */
 	public static class Snake {
 		private int x, y, len;
-		ArrayList<int[]> body;
+		private ArrayList<int[]> body;
 
 		/**
 		 * Constructor of this object
@@ -233,24 +233,57 @@ public class Main extends JComponent {
 		}
 
 		/**
-		 * Moves the snake in the right direction
+		 * Moves the snake in a direction
 		 */
 		public void move() {
-			if (leftDirection)
-				for (int[] i : body)
-					i[0]--;
+			System.out.println("Előtte:");
+			for (int i = 0; i < this.body.size(); i++) {
+				System.out.print("[" + this.body.get(i)[0] + ", "
+						+ this.body.get(i)[1] + "]" + ", ");
+			}
+			System.out.println();
 
-			else if (rightDirection)
-				for (int[] i : body)
-					i[0]++;
+			for (int i = this.body.size() - 1; i > 0; i--) {
+				System.out.print("Change: ");
+				System.out.println("[" + this.body.get(i)[0] + ", "
+						+ this.body.get(i)[1] + "] ===> ["
+						+ this.body.get(i - 1)[0] + ", "
+						+ this.body.get(i - 1)[1] + "]");
+				this.body.set(i, this.body.get(i - 1));
+			}
 
+			/*
+			 * if (leftDirection) for (int[] i : body) i[0]--;
+			 */
+			int[] tmp = new int[2];
+			// int[] elso = this.body.get(0);
+			if (leftDirection) 
+				this.body.set(0, new int[] {--this.body.get(0)[0], this.body.get(0)[1]});
+
+			/*
+			 * else if (rightDirection) for (int[] i : body) i[0]++;
+			 */
+			else if (rightDirection) 
+				this.body.set(0, new int[] {++this.body.get(0)[0], this.body.get(0)[1]});
+
+			/*
+			 * else if (upDirection) for (int[] i : body) i[1]--;
+			 */
 			else if (upDirection)
-				for (int[] i : body)
-					i[1]--;
+				this.body.set(0, new int[] {this.body.get(0)[0], --this.body.get(0)[1]});
 
+			/*
+			 * else if (downDirection) for (int[] i : body) i[1]++;
+			 */
 			else if (downDirection)
-				for (int[] i : body)
-					i[1]++;
+				this.body.set(0, new int[] {this.body.get(0)[0], ++this.body.get(0)[1]});
+
+			System.out.println("Utána:");
+			for (int i = 0; i < this.body.size(); i++) {
+				System.out.print("[" + this.body.get(i)[0] + ", "
+						+ this.body.get(i)[1] + "]" + ", ");
+			}
+			System.out.println();
 		}
 	}
 
@@ -427,6 +460,7 @@ public class Main extends JComponent {
 		for (int[] i : s.body) {
 			board[i[0]][i[1]].setValue(1);
 		}
+
 	}
 
 	/**
@@ -448,14 +482,8 @@ public class Main extends JComponent {
 		addMenus(window);
 
 		init(board);
-		/* testing window */
-		// board[0][0].setValue(1);
-		// board[window_size / 10 - 1][0].setValue(2);
-		// board[0][window_size / 10 - 1].setValue(2);
-		// board[window_size / 10 - 1][window_size / 10 - 1].setValue(3);
 
-		timer += 0.1;
-		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 25);
+		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 15);
 
 		window.setTitle("Sneak by Gergő Balkus");
 		while (true) {

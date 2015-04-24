@@ -33,6 +33,14 @@ public class Main extends JComponent {
 	 * The main board
 	 */
 	public static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
+
+	/**
+	 * Enumerations for the directions
+	 */
+	public enum Direction {
+		NORTH, EAST, SOUTH, WEST, NULL
+	}
+
 	/**
 	 * The timer used for measuring the in-game time
 	 */
@@ -60,12 +68,19 @@ public class Main extends JComponent {
 
 	/**
 	 * Class for the cells.
-	 * 
-	 * Values: 0 - empty, 1 - Contains a part of the snake, 2 - Contains the
-	 * food to be eaten, 3 - Contains a part of a obstacle
 	 */
 	public static class Cell {
+		/**
+		 * The value of the Cell.
+		 * 
+		 * If the value is: 0 - the cell is empty; 1 - it has the part of the
+		 * snake; 2 - it has a food
+		 */
 		private int value;
+		/**
+		 * The direction the cell should send the snake's body to
+		 */
+		private Direction direction;
 
 		/**
 		 * Constructor of this object
@@ -75,6 +90,20 @@ public class Main extends JComponent {
 		 */
 		public Cell(int value) {
 			this.value = value;
+			this.direction = Direction.NULL;
+		}
+
+		/**
+		 * Constructor of this object
+		 * 
+		 * @param value
+		 *            contains the value of that cell
+		 * @param d
+		 *            contains the direction of that cell
+		 */
+		public Cell(int value, Direction d) {
+			this.value = value;
+			this.direction = d;
 		}
 
 		/**
@@ -94,6 +123,25 @@ public class Main extends JComponent {
 		 */
 		public void setValue(int value) {
 			this.value = value;
+		}
+
+		/**
+		 * Returns the direction of this object
+		 * 
+		 * @return the direction of this object
+		 */
+		public Direction getDirection() {
+			return direction;
+		}
+
+		/**
+		 * Sets the direction of this object
+		 * 
+		 * @param direction
+		 *            the direction of this object
+		 */
+		public void setDirection(Direction direction) {
+			this.direction = direction;
 		}
 	}
 

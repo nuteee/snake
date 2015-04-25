@@ -3,6 +3,7 @@ package pkg;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -28,18 +29,11 @@ public class Main extends JComponent {
 	/**
 	 * The size of the window
 	 */
-	public static final Integer window_size = 700;
+	public static final Integer window_size = 300;
 	/**
 	 * The main board
 	 */
 	public static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
-
-	/**
-	 * Enumerations for the directions
-	 */
-	public enum Direction {
-		NORTH, EAST, SOUTH, WEST, NULL
-	}
 
 	/**
 	 * The timer used for measuring the in-game time
@@ -65,6 +59,10 @@ public class Main extends JComponent {
 	 * The boolean for deciding if we are heading down
 	 */
 	public static Boolean downDirection = false;
+	/**
+	 * The food to be eaten
+	 */
+	public static int[] food = new int[2];
 
 	/**
 	 * Class for the cells.
@@ -77,10 +75,6 @@ public class Main extends JComponent {
 		 * snake; 2 - it has a food
 		 */
 		private int value;
-		/**
-		 * The direction the cell should send the snake's body to
-		 */
-		private Direction direction;
 
 		/**
 		 * Constructor of this object
@@ -90,20 +84,6 @@ public class Main extends JComponent {
 		 */
 		public Cell(int value) {
 			this.value = value;
-			this.direction = Direction.NULL;
-		}
-
-		/**
-		 * Constructor of this object
-		 * 
-		 * @param value
-		 *            contains the value of that cell
-		 * @param d
-		 *            contains the direction of that cell
-		 */
-		public Cell(int value, Direction d) {
-			this.value = value;
-			this.direction = d;
 		}
 
 		/**
@@ -123,25 +103,6 @@ public class Main extends JComponent {
 		 */
 		public void setValue(int value) {
 			this.value = value;
-		}
-
-		/**
-		 * Returns the direction of this object
-		 * 
-		 * @return the direction of this object
-		 */
-		public Direction getDirection() {
-			return direction;
-		}
-
-		/**
-		 * Sets the direction of this object
-		 * 
-		 * @param direction
-		 *            the direction of this object
-		 */
-		public void setDirection(Direction direction) {
-			this.direction = direction;
 		}
 	}
 
@@ -234,56 +195,68 @@ public class Main extends JComponent {
 
 		/**
 		 * Moves the snake in a direction
+		 * 
+		 * @throws Exception
+		 *             When the Snake collides with itself
 		 */
-		public void move() {
-			System.out.println("Előtte:");
-			for (int i = 0; i < this.body.size(); i++) {
-				System.out.print("[" + this.body.get(i)[0] + ", "
-						+ this.body.get(i)[1] + "]" + ", ");
-			}
-			System.out.println();
+		void move() throws Exception {
 
 			for (int i = this.body.size() - 1; i > 0; i--) {
-				System.out.print("Change: ");
-				System.out.println("[" + this.body.get(i)[0] + ", "
-						+ this.body.get(i)[1] + "] ===> ["
-						+ this.body.get(i - 1)[0] + ", "
-						+ this.body.get(i - 1)[1] + "]");
+				/*
+				 * System.out.print("Change: "); System.out.println("[" +
+				 * this.body.get(i)[0] + ", " + this.body.get(i)[1] + "] ===> ["
+				 * + this.body.get(i - 1)[0] + ", " + this.body.get(i - 1)[1] +
+				 * "]");
+				 */
 				this.body.set(i, this.body.get(i - 1));
 			}
 
-			/*
-			 * if (leftDirection) for (int[] i : body) i[0]--;
-			 */
-			int[] tmp = new int[2];
-			// int[] elso = this.body.get(0);
-			if (leftDirection) 
-				this.body.set(0, new int[] {--this.body.get(0)[0], this.body.get(0)[1]});
+			if (leftDirection) {
+				if (board[body.get(0)[0] - 1][body.get(0)[1]].getValue() == 1)
+					throw new Exception("The Snake collided with itself.");
 
-			/*
-			 * else if (rightDirection) for (int[] i : body) i[0]++;
-			 */
-			else if (rightDirection) 
-				this.body.set(0, new int[] {++this.body.get(0)[0], this.body.get(0)[1]});
-
-			/*
-			 * else if (upDirection) for (int[] i : body) i[1]--;
-			 */
-			else if (upDirection)
-				this.body.set(0, new int[] {this.body.get(0)[0], --this.body.get(0)[1]});
-
-			/*
-			 * else if (downDirection) for (int[] i : body) i[1]++;
-			 */
-			else if (downDirection)
-				this.body.set(0, new int[] {this.body.get(0)[0], ++this.body.get(0)[1]});
-
-			System.out.println("Utána:");
-			for (int i = 0; i < this.body.size(); i++) {
-				System.out.print("[" + this.body.get(i)[0] + ", "
-						+ this.body.get(i)[1] + "]" + ", ");
+				body.set(0, new int[] { --body.get(0)[0], body.get(0)[1] });
+			} else if (rightDirection) {
+				if (board[body.get(0)[0] + 1][body.get(0)[1]].getValue() == 1)
+					throw new Exception("The Snake collided with itself.");
+				body.set(0, new int[] { ++body.get(0)[0], body.get(0)[1] });
+			} else if (upDirection) {
+				if (board[body.get(0)[0]][body.get(0)[1] - 1].getValue() == 1)
+					throw new Exception("The Snake collided with itself.");
+				body.set(0, new int[] { body.get(0)[0], --body.get(0)[1] });
+			} else if (downDirection) {
+				if (board[body.get(0)[0]][body.get(0)[1] + 1].getValue() == 1)
+					throw new Exception("The Snake collided with itself.");
+				body.set(0, new int[] { body.get(0)[0], ++body.get(0)[1] });
 			}
-			System.out.println();
+
+		}
+
+		/**
+		 * Makes the snake eat the food.
+		 * 
+		 * Occurs when the snake's head is on the food.
+		 */
+		void eat() {
+
+			if (leftDirection) {
+				body.add(new int[] {
+						body.get(len - 1)[0] < board.length ? ++body
+								.get(len - 1)[0] : body.get(len - 1)[0],
+						body.get(len - 1)[1] });
+			} else if (rightDirection) {
+				body.add(new int[] {
+						body.get(len - 1)[0] > 0 ? --body.get(len - 1)[0]
+								: body.get(len - 1)[0], body.get(len - 1)[1] });
+			} else if (upDirection) {
+				body.add(new int[] { body.get(len - 1)[0],
+						body.get(len - 1)[1] < board[0].length ? ++body.get(len - 1)[1] : body.get(len - 1)[1]});
+			} else if (downDirection) {
+				body.add(new int[] { body.get(len - 1)[0],
+						body.get(len - 1)[1] > 0 ? --body.get(len - 1)[1] : body.get(len - 1)[1] });
+			}
+
+			len++;
 		}
 	}
 
@@ -294,6 +267,12 @@ public class Main extends JComponent {
 	 */
 	public static class Tadapter extends KeyAdapter {
 
+		/**
+		 * Method for listening to pressed keys (directions)
+		 * 
+		 * @param e
+		 *            KeyEvent object storing information about the event
+		 */
 		@Override
 		public void keyPressed(KeyEvent e) {
 
@@ -323,18 +302,6 @@ public class Main extends JComponent {
 				rightDirection = false;
 			}
 		}
-	}
-
-	/**
-	 * Initializes the board
-	 * 
-	 * @param board
-	 *            the board being used
-	 */
-	public static void init(Cell[][] board) {
-		for (int i = 0; i < board.length; i++)
-			for (int j = 0; j < board[i].length; j++)
-				board[i][j] = new Cell(0);
 	}
 
 	/**
@@ -443,6 +410,49 @@ public class Main extends JComponent {
 	}
 
 	/**
+	 * Initializes the board
+	 * 
+	 * @param board
+	 *            the board being used
+	 */
+	public static void init() {
+
+		for (int i = 0; i < board.length; i++)
+			for (int j = 0; j < board[i].length; j++)
+				board[i][j] = new Cell(0);
+
+		createFood();
+	}
+
+	/**
+	 * Creates the food.
+	 */
+	public static void createFood() {
+		Random r = new Random();
+
+		do {
+			food[0] = r.nextInt(window_size / 10 - 1);
+			food[1] = r.nextInt(window_size / 10 - 1);
+		} while (board[food[0]][food[1]].getValue() == 1);
+		board[food[0]][food[1]].setValue(2);
+	}
+
+	/**
+	 * Returns the amount of foods on the board
+	 * 
+	 * @return the amount of foods on the board
+	 */
+	public static Integer amountOfFood() {
+		int c = 0;
+		for (int i = 0; i < board.length; i++)
+			for (int j = 0; j < board[i].length; j++)
+				if (board[i][j].getValue() == 2)
+					c++;
+
+		return c;
+	}
+
+	/**
 	 * Checks the objects on the board
 	 * 
 	 * @param s
@@ -453,9 +463,19 @@ public class Main extends JComponent {
 	public static void checkBoard(Snake s)
 			throws ArrayIndexOutOfBoundsException {
 
-		for (int i = 0; i < window_size / 10; i++)
-			for (int j = 0; j < window_size / 10; j++)
+		if (board[s.body.get(0)[0]][s.body.get(0)[1]].getValue() == 2) {
+			s.eat();
+			board[s.body.get(0)[0]][s.body.get(0)[1]].setValue(1);
+			if (amountOfFood() == 0)
+				createFood();
+		}
+
+		for (int i = 0; i < board.length; i++)
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j].getValue() == 2)
+					continue;
 				board[i][j].setValue(0);
+			}
 
 		for (int[] i : s.body) {
 			board[i[0]][i[1]].setValue(1);
@@ -481,22 +501,29 @@ public class Main extends JComponent {
 		window.addKeyListener(new Tadapter());
 		addMenus(window);
 
-		init(board);
+		init();
 
-		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 15);
+		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 1);
 
 		window.setTitle("Sneak by Gergő Balkus");
 		while (true) {
 			if (inGame) {
 				timer += 0.1;
-				window.setTitle(String.format("Time: %.1fs", timer));
+				window.setTitle(String.format("Time: %.1fs, Size: %d", timer,
+						s.getLen()));
 				try {
 					checkBoard(s);
-				} catch (ArrayIndexOutOfBoundsException e) {
+					s.move();
+				} catch (Exception e) {
+					e.printStackTrace();
+					for (int[] i : s.body)
+						System.out.print("[" + i[0] + ", " + i[1] + "], ");
+					System.out.println();
 					inGame = false;
-					window.setTitle("Game Over");
+					window.setTitle(String.format("Game Over. Length: %d",
+							s.getLen()));
 				}
-				s.move();
+
 			}
 			Thread.sleep(100);
 			window.setVisible(true);

@@ -23,46 +23,58 @@ public class Main extends JComponent {
 	 */
 	private static Logger logger = LoggerFactory.getLogger(Main.class);
 	/**
-	 * Serial Version UID
+	 * Serial Version UID.
 	 */
 	private static final long serialVersionUID = 1337L;
 	/**
-	 * The size of the window
+	 * The main frame.
 	 */
-	public static final Integer window_size = 300;
+	private static final JFrame window = new JFrame("Sneak by Gergő Balkus");
 	/**
-	 * The main board
+	 * The size of the window.
+	 */
+	public static final Integer window_size = 500;
+	/**
+	 * The main board.
 	 */
 	public static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
 
 	/**
-	 * The timer used for measuring the in-game time
+	 * The timer used for measuring the in-game time.
 	 */
 	public static Double timer = 0.0;
 	/**
-	 * The boolean for deciding if we are in-game
+	 * The boolean for deciding if we are in-game.
 	 */
 	public static Boolean inGame = false;
 	/**
-	 * The boolean for deciding if we are heading left
+	 * The boolean for deciding if we are heading left.
 	 */
 	public static Boolean leftDirection = false;
 	/**
-	 * The boolean for deciding if we are heading right
+	 * The boolean for deciding if we are heading right.
 	 */
 	public static Boolean rightDirection = true;
 	/**
-	 * The boolean for deciding if we are heading up
+	 * The boolean for deciding if we are heading up.
 	 */
 	public static Boolean upDirection = false;
 	/**
-	 * The boolean for deciding if we are heading down
+	 * The boolean for deciding if we are heading down.
 	 */
 	public static Boolean downDirection = false;
 	/**
-	 * The food to be eaten
+	 * The boolean for pausing the game.
+	 */
+	public static Boolean pause = false;
+	/**
+	 * The food to be eaten.
 	 */
 	public static int[] food = new int[2];
+	/**
+	 * The string for storing the user's nickname.
+	 */
+	public static String username;
 
 	/**
 	 * Class for the cells.
@@ -120,6 +132,21 @@ public class Main extends JComponent {
 		 *            the x value of the snake
 		 * @param y
 		 *            the y value of the snake
+		 */
+		public Snake(int x, int y) {
+			this.x = x;
+			this.y = y;
+			body = new ArrayList<int[]>();
+			body.add(new int[] { this.x, this.y });
+		}
+
+		/**
+		 * Constructor of this object
+		 * 
+		 * @param x
+		 *            the x value of the snake
+		 * @param y
+		 *            the y value of the snake
 		 * @param len
 		 *            the length of the snake
 		 */
@@ -128,12 +155,9 @@ public class Main extends JComponent {
 			this.y = y;
 			this.len = len;
 			body = new ArrayList<int[]>();
-			for (int i = 0; i < len; i++) {
-				int[] tmp = new int[2];
-				tmp[0] = x - i;
-				tmp[1] = y;
-				body.add(tmp);
-			}
+			for (int i = 0; i < len; i++)
+				body.add(new int[] { x - i, y });
+
 		}
 
 		/**
@@ -201,20 +225,12 @@ public class Main extends JComponent {
 		 */
 		void move() throws Exception {
 
-			for (int i = this.body.size() - 1; i > 0; i--) {
-				/*
-				 * System.out.print("Change: "); System.out.println("[" +
-				 * this.body.get(i)[0] + ", " + this.body.get(i)[1] + "] ===> ["
-				 * + this.body.get(i - 1)[0] + ", " + this.body.get(i - 1)[1] +
-				 * "]");
-				 */
-				this.body.set(i, this.body.get(i - 1));
-			}
+			for (int i = body.size() - 1; i > 0; i--)
+				body.set(i, this.body.get(i - 1));
 
 			if (leftDirection) {
 				if (board[body.get(0)[0] - 1][body.get(0)[1]].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-
 				body.set(0, new int[] { --body.get(0)[0], body.get(0)[1] });
 			} else if (rightDirection) {
 				if (board[body.get(0)[0] + 1][body.get(0)[1]].getValue() == 1)
@@ -239,24 +255,49 @@ public class Main extends JComponent {
 		 */
 		void eat() {
 
-			if (leftDirection) {
-				body.add(new int[] {
-						body.get(len - 1)[0] < board.length ? ++body
-								.get(len - 1)[0] : body.get(len - 1)[0],
-						body.get(len - 1)[1] });
-			} else if (rightDirection) {
-				body.add(new int[] {
-						body.get(len - 1)[0] > 0 ? --body.get(len - 1)[0]
-								: body.get(len - 1)[0], body.get(len - 1)[1] });
-			} else if (upDirection) {
-				body.add(new int[] { body.get(len - 1)[0],
-						body.get(len - 1)[1] < board[0].length ? ++body.get(len - 1)[1] : body.get(len - 1)[1]});
-			} else if (downDirection) {
-				body.add(new int[] { body.get(len - 1)[0],
-						body.get(len - 1)[1] > 0 ? --body.get(len - 1)[1] : body.get(len - 1)[1] });
+			int i, j;
+
+			if (body.size() > 1) {
+				i = body.get(len - 1)[0];
+				j = body.get(len - 1)[1];
+
+				i += i - body.get(len - 2)[0];
+				j += j - body.get(len - 2)[1];
+
+				body.add(new int[] { i, j });
+			} else {
+				if (leftDirection) {
+					body.add(new int[] {
+							body.get(len - 1)[0] < board.length ? ++body
+									.get(len - 1)[0] : body.get(len - 1)[0],
+							body.get(len - 1)[1] });
+				} else if (rightDirection) {
+					body.add(new int[] {
+							body.get(len - 1)[0] > 0 ? --body.get(len - 1)[0]
+									: body.get(len - 1)[0],
+							body.get(len - 1)[1] });
+				} else if (upDirection) {
+					body.add(new int[] {
+							body.get(len - 1)[0],
+							body.get(len - 1)[1] < board[0].length ? --body
+									.get(len - 1)[1] : body.get(len - 1)[1] });
+				} else if (downDirection) {
+					body.add(new int[] {
+							body.get(len - 1)[0],
+							body.get(len - 1)[1] > 0 ? ++body.get(len - 1)[1]
+									: body.get(len - 1)[1] });
+				}
 			}
 
 			len++;
+		}
+
+		public void clear() {
+			body.clear();
+			body.add(new int[] { x, y });
+			len = 1;
+			rightDirection = true;
+
 		}
 	}
 
@@ -277,6 +318,9 @@ public class Main extends JComponent {
 		public void keyPressed(KeyEvent e) {
 
 			int key = e.getKeyCode();
+
+			if (key == KeyEvent.VK_P)
+				pause = !(pause);
 
 			if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
 				leftDirection = true;
@@ -373,14 +417,14 @@ public class Main extends JComponent {
 	 */
 	public static void addMenus(JFrame window) {
 		JMenuBar menuBar;
-		JMenu menu;
+		JMenu game;
 		JMenuItem new_game_menuItem, quit_menuItem;
 
 		menuBar = new JMenuBar();
-		menu = new JMenu("Game");
-		menu.getAccessibleContext().setAccessibleDescription(
+		game = new JMenu("Game");
+		game.getAccessibleContext().setAccessibleDescription(
 				"The main menu to control the game");
-		menuBar.add(menu);
+		menuBar.add(game);
 		new_game_menuItem = new JMenuItem("New game..", KeyEvent.VK_N);
 		new_game_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.ALT_MASK));
@@ -389,22 +433,28 @@ public class Main extends JComponent {
 		quit_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 				ActionEvent.ALT_MASK));
 
-		new_game_menuItem.addActionListener(e -> {
-			window.getContentPane().add(new Main());
-			timer = 0.0;
-			inGame = true;
-		});
+		new_game_menuItem
+				.addActionListener(e -> {
+					username = (String) JOptionPane
+							.showInputDialog(
+									window,
+									"Please type your nickname to be showed on the scoreboard later!\n",
+									"Type your nickname",
+									JOptionPane.INFORMATION_MESSAGE);
+					window.getContentPane().add(new Main());
+					timer = 0.0;
+					inGame = true;
+				});
 
 		quit_menuItem.addActionListener(e -> {
+			JOptionPane.showMessageDialog(window, "Thanks for playing!", "Good bye", JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		});
 
-		menu.add(new_game_menuItem);
-		menu.addSeparator();
-		menu.addSeparator();
-		menu.addSeparator();
-		menu.addSeparator();
-		menu.add(quit_menuItem);
+		game.add(new_game_menuItem);
+		game.addSeparator();
+		game.addSeparator();
+		game.add(quit_menuItem);
 
 		window.setJMenuBar(menuBar);
 	}
@@ -429,6 +479,12 @@ public class Main extends JComponent {
 	 */
 	public static void createFood() {
 		Random r = new Random();
+
+		for (int i = 0; i < board.length; i++)
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j].getValue() == 2)
+					board[i][j].setValue(0);
+			}
 
 		do {
 			food[0] = r.nextInt(window_size / 10 - 1);
@@ -493,11 +549,12 @@ public class Main extends JComponent {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 
-		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.pack();
-		window.setBounds(425, 0, window_size + 3, window_size + 47);
+		window.setSize(window_size + 3, window_size + 47);
+		window.setLocationRelativeTo(null);
+		// window.setBounds(425, 0, );
 		window.addKeyListener(new Tadapter());
 		addMenus(window);
 
@@ -505,23 +562,23 @@ public class Main extends JComponent {
 
 		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 1);
 
-		window.setTitle("Sneak by Gergő Balkus");
 		while (true) {
 			if (inGame) {
-				timer += 0.1;
-				window.setTitle(String.format("Time: %.1fs, Size: %d", timer,
-						s.getLen()));
-				try {
-					checkBoard(s);
-					s.move();
-				} catch (Exception e) {
-					e.printStackTrace();
-					for (int[] i : s.body)
-						System.out.print("[" + i[0] + ", " + i[1] + "], ");
-					System.out.println();
-					inGame = false;
-					window.setTitle(String.format("Game Over. Length: %d",
-							s.getLen()));
+				if (!pause) {
+					timer += 0.1;
+					window.setTitle(String.format(
+							"Time: %.1fs, Size: %d, Name: %s", timer,
+							s.getLen() - 1, username));
+					try {
+						checkBoard(s);
+						s.move();
+					} catch (Exception e) {
+						e.printStackTrace();
+						inGame = false;
+						s.clear();
+						window.setTitle(String.format("Game Over. Length: %d",
+								s.getLen() - 1));
+					}
 				}
 
 			}

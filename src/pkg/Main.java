@@ -1,20 +1,29 @@
 package pkg;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Main class where everything happens
- * 
  * @author NuTeeE
- *
  */
 public class Main extends JComponent {
 
@@ -84,34 +93,32 @@ public class Main extends JComponent {
 		 * The value of the Cell.
 		 * 
 		 * If the value is: 0 - the cell is empty; 1 - it has the part of the
-		 * snake; 2 - it has a food
+		 * snake; 2 - it contains a food.
 		 */
 		private int value;
 
 		/**
-		 * Constructor of this object
+		 * Constructor of this object.
 		 * 
-		 * @param value
-		 *            contains the value of that cell
+		 * @param <code>value</code> Contains the value of that cell.
 		 */
 		public Cell(int value) {
 			this.value = value;
 		}
 
 		/**
-		 * Returns the value of this object
+		 * Returns the value of this object.
 		 * 
-		 * @return the value of this object
+		 * @return The value of this object.
 		 */
 		public int getValue() {
 			return value;
 		}
 
 		/**
-		 * Sets the value of this object
+		 * Sets the value of this object.
 		 * 
-		 * @param value
-		 *            the value of this object
+		 * @param <code>value</code> The value of this object.
 		 */
 		public void setValue(int value) {
 			this.value = value;
@@ -119,19 +126,17 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * The class of the controlled snake
+	 * The class of the controlled snake.
 	 */
 	public static class Snake {
 		private int x, y, len;
 		private ArrayList<int[]> body;
 
 		/**
-		 * Constructor of this object
+		 * Constructor of this object.
 		 * 
-		 * @param x
-		 *            the x value of the snake
-		 * @param y
-		 *            the y value of the snake
+		 * @param <code>x</code> The x value of the snake.
+		 * @param <code>y</code> The y value of the snake.
 		 */
 		public Snake(int x, int y) {
 			this.x = x;
@@ -141,14 +146,11 @@ public class Main extends JComponent {
 		}
 
 		/**
-		 * Constructor of this object
+		 * Constructor of this object.
 		 * 
-		 * @param x
-		 *            the x value of the snake
-		 * @param y
-		 *            the y value of the snake
-		 * @param len
-		 *            the length of the snake
+		 * @param <code>x</code> The x value of the snake.
+		 * @param <code>y</code> The y value of the snake.
+		 * @param <code>len</code> The length of the snake.
 		 */
 		public Snake(int x, int y, int len) {
 			this.x = x;
@@ -161,67 +163,64 @@ public class Main extends JComponent {
 		}
 
 		/**
-		 * Returns the length of the snake
+		 * Returns the length of the snake.
 		 * 
-		 * @return the length of the snake
+		 * @return The length of the snake.
 		 */
 		public int getLen() {
 			return len;
 		}
 
 		/**
-		 * Sets the length of the snake
+		 * Sets the length of the snake.
 		 * 
-		 * @param len
-		 *            the length of the snake
+		 * @param <code>len</code> The length of the snake.
 		 */
 		public void setLen(int len) {
 			this.len = len;
 		}
 
 		/**
-		 * Returns the x value of the snake
+		 * Returns the x value of the snake.
 		 * 
-		 * @return the x value of the snake
+		 * @return The x value of the snake.
 		 */
 		public int getX() {
 			return x;
 		}
 
 		/**
-		 * Sets the x value of the snake
+		 * Sets the x value of the snake.
 		 * 
-		 * @param x
-		 *            the x value of the snake
+		 * @param <code>x</code> The x value of the snake.
 		 */
 		public void setX(int x) {
 			this.x = x;
 		}
 
 		/**
-		 * Returns the y value of the snake
+		 * Returns the y value of the snake.
 		 * 
-		 * @return the y value of the snake
+		 * @return The y value of the snake.
 		 */
 		public int getY() {
 			return y;
 		}
 
 		/**
-		 * Sets the y value of the snake
+		 * Sets the y value of the snake.
 		 * 
-		 * @param y
-		 *            the y value of the snake
+		 * @param <code>y</code> The y value of the snake.
 		 */
 		public void setY(int y) {
 			this.y = y;
 		}
 
 		/**
-		 * Moves the snake in a direction
+		 * Moves the snake in a direction.
 		 * 
 		 * @throws Exception
-		 *             When the Snake collides with itself
+		 *             When the Snake collides with itself.
 		 */
 		void move() throws Exception {
 
@@ -292,6 +291,11 @@ public class Main extends JComponent {
 			len++;
 		}
 
+		/**
+		 * Deletes the Snake, and creates a new one.
+		 * 
+		 * Occurs when the actual game is over.
+		 */
 		public void clear() {
 			body.clear();
 			body.add(new int[] { x, y });
@@ -302,17 +306,15 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Extended KeyAdapter class for listening to pressed keys (directions)
-	 * 
-	 * @author NuTeeE
+	 * Extended KeyAdapter class for listening to pressed keys (directions).
 	 */
 	public static class Tadapter extends KeyAdapter {
 
 		/**
-		 * Method for listening to pressed keys (directions)
+		 * Method for listening to pressed keys (directions).
 		 * 
-		 * @param e
-		 *            KeyEvent object storing information about the event
+		 * @param <code>e</code> KeyEvent object storing information about the
+		 *        event.
 		 */
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -349,10 +351,9 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Draws the main board
+	 * Draws the main board.
 	 * 
-	 * @param g2d
-	 *            our Graphics2D object
+	 * @param <code>g2d</code> A <code>Graphics2D</code> object.
 	 */
 	public void drawBoard(Graphics2D g2d) {
 		g2d.setColor(Color.BLACK);
@@ -369,10 +370,9 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Paints the cells based on their values
+	 * Paints the cells based on their values.
 	 * 
-	 * @param g2d
-	 *            our Graphics2D object
+	 * @param <code>g2d</code> A <code>Graphics2D</code> object.
 	 */
 	public void drawCells(Graphics2D g2d) {
 		for (int i = 0; i < board.length; i++) {
@@ -396,10 +396,9 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Paints the stuffs
+	 * Paints the stuffs.
 	 * 
-	 * @param g
-	 *            our Graphics object
+	 * @param <code>g</code> A <code>Graphics</code> object.
 	 */
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
@@ -410,10 +409,10 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Creates the menubar
+	 * Creates the menubar.
 	 * 
-	 * @param window
-	 *            the JFrame object being used
+	 * @param <code>window<code>
+	 *            The <code>JFrame</code> object being used.
 	 */
 	public static void addMenus(JFrame window) {
 		JMenuBar menuBar;
@@ -447,7 +446,8 @@ public class Main extends JComponent {
 				});
 
 		quit_menuItem.addActionListener(e -> {
-			JOptionPane.showMessageDialog(window, "Thanks for playing!", "Good bye", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(window, "Thanks for playing!",
+					"Good bye", JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		});
 
@@ -460,10 +460,10 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Initializes the board
+	 * Initializes the board.
 	 * 
-	 * @param board
-	 *            the board being used
+	 * @param <code>board</code>
+	 *            The board being used.
 	 */
 	public static void init() {
 
@@ -494,9 +494,9 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Returns the amount of foods on the board
+	 * Returns the amount of foods on the board.
 	 * 
-	 * @return the amount of foods on the board
+	 * @return The amount of foods on the board.
 	 */
 	public static Integer amountOfFood() {
 		int c = 0;
@@ -509,12 +509,12 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Checks the objects on the board
+	 * Checks the objects on the board.
 	 * 
 	 * @param s
-	 *            the snake object
+	 *            The <code>Snake</code> object.
 	 * @throws ArrayIndexOutOfBoundsException
-	 *             when the snake collides with the border
+	 *             When the snake collides with the border.
 	 */
 	public static void checkBoard(Snake s)
 			throws ArrayIndexOutOfBoundsException {
@@ -540,12 +540,10 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Initializes and launch the application
+	 * Initializes and launch the application.
 	 * 
 	 * @throws InterruptedException
-	 *             if the thread is interrupted
-	 * @param args
-	 *            basic stuff.
+	 *             If the thread is interrupted.
 	 */
 	public static void main(String[] args) throws InterruptedException {
 
@@ -574,10 +572,10 @@ public class Main extends JComponent {
 						s.move();
 					} catch (Exception e) {
 						e.printStackTrace();
-						inGame = false;
-						s.clear();
 						window.setTitle(String.format("Game Over. Length: %d",
 								s.getLen() - 1));
+						inGame = false;
+						s.clear();
 					}
 				}
 

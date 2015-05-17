@@ -8,7 +8,14 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Random;
 
 import javax.swing.JComponent;
@@ -32,9 +39,9 @@ public class Main extends JComponent {
 	 */
 	private static Logger logger = LoggerFactory.getLogger(Main.class);
 	/**
-	 * Serial Version UID.
+	 * The JDBC URL
 	 */
-	private static final long serialVersionUID = 1337L;
+	public static final String jdbcUrl = "jdbc:oracle:thin:@db.inf.unideb.hu:1521:ora11g";
 	/**
 	 * The main frame.
 	 */
@@ -416,14 +423,19 @@ public class Main extends JComponent {
 	 */
 	public static void addMenus(JFrame window) {
 		JMenuBar menuBar;
-		JMenu game;
+		JMenu game, stats;
 		JMenuItem new_game_menuItem, quit_menuItem;
 
 		menuBar = new JMenuBar();
 		game = new JMenu("Game");
+		stats = new JMenu("Stats");
+
 		game.getAccessibleContext().setAccessibleDescription(
 				"The main menu to control the game");
+
 		menuBar.add(game);
+		menuBar.add(stats);
+
 		new_game_menuItem = new JMenuItem("New game..", KeyEvent.VK_N);
 		new_game_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.ALT_MASK));
@@ -434,15 +446,21 @@ public class Main extends JComponent {
 
 		new_game_menuItem
 				.addActionListener(e -> {
-					username = (String) JOptionPane
-							.showInputDialog(
-									window,
-									"Please type your nickname to be showed on the scoreboard later!\n",
-									"Type your nickname",
-									JOptionPane.INFORMATION_MESSAGE);
-					window.getContentPane().add(new Main());
-					timer = 0.0;
-					inGame = true;
+					try {
+						do {
+							username = (String) JOptionPane
+									.showInputDialog(
+											window,
+											"Please type your nickname to be showed on the scoreboard later!\n",
+											"Type your nickname",
+											JOptionPane.QUESTION_MESSAGE);
+						} while (username.isEmpty());
+						window.getContentPane().add(new Main());
+						timer = 0.0;
+						inGame = true;
+					} catch (Exception e1) {
+						;
+					}
 				});
 
 		quit_menuItem.addActionListener(e -> {
@@ -451,8 +469,11 @@ public class Main extends JComponent {
 			System.exit(0);
 		});
 
+		stats.addActionListener(e -> {
+
+		});
+
 		game.add(new_game_menuItem);
-		game.addSeparator();
 		game.addSeparator();
 		game.add(quit_menuItem);
 
@@ -462,8 +483,7 @@ public class Main extends JComponent {
 	/**
 	 * Initializes the board.
 	 * 
-	 * @param <code>board</code>
-	 *            The board being used.
+	 * @param <code>board</code> The board being used.
 	 */
 	public static void init() {
 
@@ -544,8 +564,17 @@ public class Main extends JComponent {
 	 * 
 	 * @throws InterruptedException
 	 *             If the thread is interrupted.
+	 * @throws IOException
+	 *             When I/O failure occurs.
+	 * @throws FileNotFoundException
+	 *             When the dbconnection.properties is not found.
+	 * @throws SQLException
+	 *             When the SQL connection fails
 	 */
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException,
+			FileNotFoundException, IOException, SQLException {
+
+		DBConnection dbc = new DBConnection();
 
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
@@ -566,14 +595,21 @@ public class Main extends JComponent {
 					timer += 0.1;
 					window.setTitle(String.format(
 							"Time: %.1fs, Size: %d, Name: %s", timer,
-							s.getLen() - 1, username));
+							s.getLen(), username));
 					try {
 						checkBoard(s);
 						s.move();
 					} catch (Exception e) {
-						e.printStackTrace();
+						// e.printStackTrace();
+						dbc.connect(jdbcUrl);
+
+						dbc.executeUpdate(
+								"INSERT INTO SNAKE (NEV, HOSSZ, IDO, DATUM) VALUES(?, ?, ?, ?)",
+								username, s.getLen(), timer.intValue());
+						dbc.close();
+
 						window.setTitle(String.format("Game Over. Length: %d",
-								s.getLen() - 1));
+								s.getLen()));
 						inGame = false;
 						s.clear();
 					}

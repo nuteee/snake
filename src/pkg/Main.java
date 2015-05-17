@@ -8,14 +8,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.util.Random;
 
 import javax.swing.JComponent;
@@ -35,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class Main extends JComponent {
 
 	/**
-	 * The Logback logger
+	 * The Logback logger of the <code>Main</code> class
 	 */
 	private static Logger logger = LoggerFactory.getLogger(Main.class);
 	/**
@@ -150,6 +146,9 @@ public class Main extends JComponent {
 			this.y = y;
 			body = new ArrayList<int[]>();
 			body.add(new int[] { this.x, this.y });
+			logger.debug(
+					"Snake object created with these parameters: 'x':{}, 'y':{}",
+					x, y);
 		}
 
 		/**
@@ -167,6 +166,9 @@ public class Main extends JComponent {
 			for (int i = 0; i < len; i++)
 				body.add(new int[] { x - i, y });
 
+			logger.debug(
+					"Snake object created with these parameters: 'x':{}, 'y':{}, 'len':{}",
+					x, y, len);
 		}
 
 		/**
@@ -230,6 +232,7 @@ public class Main extends JComponent {
 		 *             When the Snake collides with itself.
 		 */
 		void move() throws Exception {
+			// logger.info("Starting the 'move()' method of the Snake object");
 
 			for (int i = body.size() - 1; i > 0; i--)
 				body.set(i, this.body.get(i - 1));
@@ -237,21 +240,21 @@ public class Main extends JComponent {
 			if (leftDirection) {
 				if (board[body.get(0)[0] - 1][body.get(0)[1]].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { --body.get(0)[0], body.get(0)[1] });
+				body.set(0, new int[] { body.get(0)[0] - 1, body.get(0)[1] });
 			} else if (rightDirection) {
 				if (board[body.get(0)[0] + 1][body.get(0)[1]].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { ++body.get(0)[0], body.get(0)[1] });
+				body.set(0, new int[] { body.get(0)[0] + 1, body.get(0)[1] });
 			} else if (upDirection) {
 				if (board[body.get(0)[0]][body.get(0)[1] - 1].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { body.get(0)[0], --body.get(0)[1] });
+				body.set(0, new int[] { body.get(0)[0], body.get(0)[1] - 1 });
 			} else if (downDirection) {
 				if (board[body.get(0)[0]][body.get(0)[1] + 1].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { body.get(0)[0], ++body.get(0)[1] });
+				body.set(0, new int[] { body.get(0)[0], body.get(0)[1] + 1 });
 			}
-
+			// logger.info("End of the 'move()' method of the Snake object.");
 		}
 
 		/**
@@ -260,42 +263,50 @@ public class Main extends JComponent {
 		 * Occurs when the snake's head is on the food.
 		 */
 		void eat() {
+			logger.info("'eat()' started.");
 
 			int i, j;
-
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for(int[] tmp : body) {
+				sb.append("[" + tmp[0] + ", " + tmp[1] + "], ");
+			}
+			sb.append("]");
+				
+			logger.debug("'Body' before: {}", sb);
 			if (body.size() > 1) {
 				i = body.get(len - 1)[0];
 				j = body.get(len - 1)[1];
 
 				i += i - body.get(len - 2)[0];
 				j += j - body.get(len - 2)[1];
-
+				// TODO try-catch mert hibát okozhat
 				body.add(new int[] { i, j });
+				logger.debug("New body added at 'x':{}, 'y':{}", i, j);
 			} else {
 				if (leftDirection) {
-					body.add(new int[] {
-							body.get(len - 1)[0] < board.length ? ++body
-									.get(len - 1)[0] : body.get(len - 1)[0],
-							body.get(len - 1)[1] });
+					body.add(new int[] { body.get(0)[0] + 1, body.get(0)[1] });
 				} else if (rightDirection) {
-					body.add(new int[] {
-							body.get(len - 1)[0] > 0 ? --body.get(len - 1)[0]
-									: body.get(len - 1)[0],
-							body.get(len - 1)[1] });
+					body.add(new int[] { body.get(0)[0] - 1, body.get(0)[1] });
 				} else if (upDirection) {
-					body.add(new int[] {
-							body.get(len - 1)[0],
-							body.get(len - 1)[1] < board[0].length ? --body
-									.get(len - 1)[1] : body.get(len - 1)[1] });
+					body.add(new int[] { body.get(0)[0], body.get(0)[1] + 1 });
 				} else if (downDirection) {
-					body.add(new int[] {
-							body.get(len - 1)[0],
-							body.get(len - 1)[1] > 0 ? ++body.get(len - 1)[1]
-									: body.get(len - 1)[1] });
+					body.add(new int[] { body.get(0)[0], body.get(0)[1] - 1 });
 				}
 			}
-
-			len++;
+			
+			sb = new StringBuilder();
+			sb.append("[");
+			for(int[] tmp : body) {
+				sb.append("[" + tmp[0] + ", " + tmp[1] + "], ");
+			}
+			sb.append("]");
+			logger.debug("'Body' after: {}", sb);
+			
+			logger.debug("'len' before eating: {}", len);
+			len = body.size();
+			logger.debug("'len' after eating: {}", len);
 		}
 
 		/**
@@ -304,24 +315,26 @@ public class Main extends JComponent {
 		 * Occurs when the actual game is over.
 		 */
 		public void clear() {
+			logger.info("Getting rid of the old snake, and creating a new one.");
 			body.clear();
 			body.add(new int[] { x, y });
 			len = 1;
 			rightDirection = true;
-
+			logger.info("New snake created. Returning to Main..");
 		}
 	}
 
 	/**
-	 * Extended KeyAdapter class for listening to pressed keys (directions).
+	 * Extended <code>KeyAdapter</code> class for listening to pressed keys
+	 * (directions).
 	 */
 	public static class Tadapter extends KeyAdapter {
 
 		/**
 		 * Method for listening to pressed keys (directions).
 		 * 
-		 * @param <code>e</code> KeyEvent object storing information about the
-		 *        event.
+		 * @param <code>e</code> <code>KeyEvent</code> object storing
+		 *        information about the event.
 		 */
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -332,24 +345,28 @@ public class Main extends JComponent {
 				pause = !(pause);
 
 			if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
+				logger.debug("Switching direction to left");
 				leftDirection = true;
 				upDirection = false;
 				downDirection = false;
 			}
 
 			if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
+				logger.debug("Switching direction to right");
 				rightDirection = true;
 				upDirection = false;
 				downDirection = false;
 			}
 
 			if ((key == KeyEvent.VK_UP) && (!downDirection)) {
+				logger.debug("Switching direction to up");
 				upDirection = true;
 				leftDirection = false;
 				rightDirection = false;
 			}
 
 			if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
+				logger.debug("Switching direction to down");
 				downDirection = true;
 				leftDirection = false;
 				rightDirection = false;
@@ -422,6 +439,7 @@ public class Main extends JComponent {
 	 *            The <code>JFrame</code> object being used.
 	 */
 	public static void addMenus(JFrame window) {
+		logger.info("Adding the menus.");
 		JMenuBar menuBar;
 		JMenu game, stats;
 		JMenuItem new_game_menuItem, quit_menuItem;
@@ -448,6 +466,7 @@ public class Main extends JComponent {
 				.addActionListener(e -> {
 					try {
 						do {
+							logger.warn("Asking for username.");
 							username = (String) JOptionPane
 									.showInputDialog(
 											window,
@@ -455,6 +474,7 @@ public class Main extends JComponent {
 											"Type your nickname",
 											JOptionPane.QUESTION_MESSAGE);
 						} while (username.isEmpty());
+						logger.debug("Username is: {}", username);
 						window.getContentPane().add(new Main());
 						timer = 0.0;
 						inGame = true;
@@ -464,13 +484,14 @@ public class Main extends JComponent {
 				});
 
 		quit_menuItem.addActionListener(e -> {
+			logger.warn("Quitting the game.");
 			JOptionPane.showMessageDialog(window, "Thanks for playing!",
 					"Good bye", JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		});
 
 		stats.addActionListener(e -> {
-
+			;
 		});
 
 		game.add(new_game_menuItem);
@@ -478,6 +499,7 @@ public class Main extends JComponent {
 		game.add(quit_menuItem);
 
 		window.setJMenuBar(menuBar);
+		logger.info("Menus added.");
 	}
 
 	/**
@@ -490,6 +512,8 @@ public class Main extends JComponent {
 		for (int i = 0; i < board.length; i++)
 			for (int j = 0; j < board[i].length; j++)
 				board[i][j] = new Cell(0);
+
+		logger.info("Board initialized.");
 
 		createFood();
 	}
@@ -510,7 +534,11 @@ public class Main extends JComponent {
 			food[0] = r.nextInt(window_size / 10 - 1);
 			food[1] = r.nextInt(window_size / 10 - 1);
 		} while (board[food[0]][food[1]].getValue() == 1);
+
 		board[food[0]][food[1]].setValue(2);
+		logger.debug(
+				"The new food is created at this position: 'x':{}, 'y':{}.",
+				food[0], food[1]);
 	}
 
 	/**
@@ -524,7 +552,7 @@ public class Main extends JComponent {
 			for (int j = 0; j < board[i].length; j++)
 				if (board[i][j].getValue() == 2)
 					c++;
-
+		logger.debug("The amountOfFood method returns: {}", c);
 		return c;
 	}
 
@@ -539,11 +567,14 @@ public class Main extends JComponent {
 	public static void checkBoard(Snake s)
 			throws ArrayIndexOutOfBoundsException {
 
+		// logger.info("'checkBoard()' method started.");
 		if (board[s.body.get(0)[0]][s.body.get(0)[1]].getValue() == 2) {
-			s.eat();
+			logger.debug("Eating food at: 'x':{}, 'y':{}", s.body.get(0)[0],
+					s.body.get(0)[1]);
+			if (amountOfFood() == 1)
+				s.eat();
 			board[s.body.get(0)[0]][s.body.get(0)[1]].setValue(1);
-			if (amountOfFood() == 0)
-				createFood();
+			createFood();
 		}
 
 		for (int i = 0; i < board.length; i++)
@@ -573,49 +604,70 @@ public class Main extends JComponent {
 	 */
 	public static void main(String[] args) throws InterruptedException,
 			FileNotFoundException, IOException, SQLException {
+		logger.info("Main started.");
 
 		DBConnection dbc = new DBConnection();
+		logger.info("DBConnection created.");
 
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.pack();
 		window.setSize(window_size + 3, window_size + 47);
 		window.setLocationRelativeTo(null);
-		// window.setBounds(425, 0, );
 		window.addKeyListener(new Tadapter());
+		logger.info("The JFrame window is created.");
 		addMenus(window);
+		logger.info("Menus added to 'window'.");
 
 		init();
+		logger.info("Back in the Main from the init() method.");
 
 		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 1);
+		logger.info("Back in the Main from creating the Snake object.");
+
+		logger.info("While loop starting...");
 
 		while (true) {
+			// logger.info("'inGame' value: {}.", inGame);
 			if (inGame) {
+				// logger.info("'pause' value: {}.", pause);
 				if (!pause) {
 					timer += 0.1;
+
 					window.setTitle(String.format(
 							"Time: %.1fs, Size: %d, Name: %s", timer,
 							s.getLen(), username));
+					// logger.info("Title updated.");
 					try {
+						// logger.info("Calling 'checkBoard' method with the Snake object.");
 						checkBoard(s);
 						s.move();
 					} catch (Exception e) {
+						logger.info("The Snake collided with something.");
+						inGame = false;
 						// e.printStackTrace();
+						logger.info("Trying to connect to the database...");
 						dbc.connect(jdbcUrl);
 
+						logger.info("Trying to insert the stats into the database...");
 						dbc.executeUpdate(
 								"INSERT INTO SNAKE (NEV, HOSSZ, IDO, DATUM) VALUES(?, ?, ?, ?)",
 								username, s.getLen(), timer.intValue());
+
+						logger.info("Closing the connection...");
 						dbc.close();
 
 						window.setTitle(String.format("Game Over. Length: %d",
 								s.getLen()));
-						inGame = false;
+						logger.info("Game over. Title updated.");
+
+						logger.info("Calling the 'clear()' method of the Snake object.");
 						s.clear();
 					}
 				}
 
 			}
+			// logger.info("Sending the thread to sleep 100 msecs.");
 			Thread.sleep(100);
 			window.setVisible(true);
 			window.repaint();

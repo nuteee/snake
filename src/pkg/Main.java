@@ -8,10 +8,13 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JComponent;
@@ -21,9 +24,21 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author NuTeeE
@@ -80,60 +95,28 @@ public class Main extends JComponent {
 	 */
 	public static Boolean pause = false;
 	/**
+	 * The boolean for saving the game.
+	 */
+	public static Boolean save = false;
+	/**
+	 * The boolean for loading the game.
+	 */
+	public static Boolean load = false;
+	/**
 	 * The food to be eaten.
 	 */
-	public static int[] food = new int[2];
+	public static Integer[] food = new Integer[2];
 	/**
 	 * The string for storing the user's nickname.
 	 */
 	public static String username;
 
 	/**
-	 * Class for the cells.
-	 */
-	public static class Cell {
-		/**
-		 * The value of the Cell.
-		 * 
-		 * If the value is: 0 - the cell is empty; 1 - it has the part of the
-		 * snake; 2 - it contains a food.
-		 */
-		private int value;
-
-		/**
-		 * Constructor of this object.
-		 * 
-		 * @param <code>value</code> Contains the value of that cell.
-		 */
-		public Cell(int value) {
-			this.value = value;
-		}
-
-		/**
-		 * Returns the value of this object.
-		 * 
-		 * @return The value of this object.
-		 */
-		public int getValue() {
-			return value;
-		}
-
-		/**
-		 * Sets the value of this object.
-		 * 
-		 * @param <code>value</code> The value of this object.
-		 */
-		public void setValue(int value) {
-			this.value = value;
-		}
-	}
-
-	/**
 	 * The class of the controlled snake.
 	 */
 	public static class Snake {
 		private int x, y, len;
-		private ArrayList<int[]> body;
+		private ArrayList<Integer[]> body;
 
 		/**
 		 * Constructor of this object.
@@ -144,8 +127,8 @@ public class Main extends JComponent {
 		public Snake(int x, int y) {
 			this.x = x;
 			this.y = y;
-			body = new ArrayList<int[]>();
-			body.add(new int[] { this.x, this.y });
+			body = new ArrayList<Integer[]>();
+			body.add(new Integer[] { this.x, this.y });
 			logger.debug(
 					"Snake object created with these parameters: 'x':{}, 'y':{}",
 					x, y);
@@ -162,13 +145,21 @@ public class Main extends JComponent {
 			this.x = x;
 			this.y = y;
 			this.len = len;
-			body = new ArrayList<int[]>();
+			body = new ArrayList<Integer[]>();
 			for (int i = 0; i < len; i++)
-				body.add(new int[] { x - i, y });
+				body.add(new Integer[] { x - i, y });
 
 			logger.debug(
 					"Snake object created with these parameters: 'x':{}, 'y':{}, 'len':{}",
 					x, y, len);
+		}
+
+		public ArrayList<Integer[]> getBody() {
+			return body;
+		}
+
+		public void setBody(ArrayList<Integer[]> body) {
+			this.body = body;
 		}
 
 		/**
@@ -176,7 +167,7 @@ public class Main extends JComponent {
 		 * 
 		 * @return The length of the snake.
 		 */
-		public int getLen() {
+		public Integer getLen() {
 			return len;
 		}
 
@@ -194,7 +185,7 @@ public class Main extends JComponent {
 		 * 
 		 * @return The x value of the snake.
 		 */
-		public int getX() {
+		public Integer getX() {
 			return x;
 		}
 
@@ -212,7 +203,7 @@ public class Main extends JComponent {
 		 * 
 		 * @return The y value of the snake.
 		 */
-		public int getY() {
+		public Integer getY() {
 			return y;
 		}
 
@@ -240,19 +231,23 @@ public class Main extends JComponent {
 			if (leftDirection) {
 				if (board[body.get(0)[0] - 1][body.get(0)[1]].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { body.get(0)[0] - 1, body.get(0)[1] });
+				body.set(0,
+						new Integer[] { body.get(0)[0] - 1, body.get(0)[1] });
 			} else if (rightDirection) {
 				if (board[body.get(0)[0] + 1][body.get(0)[1]].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { body.get(0)[0] + 1, body.get(0)[1] });
+				body.set(0,
+						new Integer[] { body.get(0)[0] + 1, body.get(0)[1] });
 			} else if (upDirection) {
 				if (board[body.get(0)[0]][body.get(0)[1] - 1].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { body.get(0)[0], body.get(0)[1] - 1 });
+				body.set(0,
+						new Integer[] { body.get(0)[0], body.get(0)[1] - 1 });
 			} else if (downDirection) {
 				if (board[body.get(0)[0]][body.get(0)[1] + 1].getValue() == 1)
 					throw new Exception("The Snake collided with itself.");
-				body.set(0, new int[] { body.get(0)[0], body.get(0)[1] + 1 });
+				body.set(0,
+						new Integer[] { body.get(0)[0], body.get(0)[1] + 1 });
 			}
 			// logger.info("End of the 'move()' method of the Snake object.");
 		}
@@ -266,15 +261,15 @@ public class Main extends JComponent {
 			logger.info("'eat()' started.");
 
 			int i, j;
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append("[");
-			for(int[] tmp : body) {
-				sb.append("[" + tmp[0] + ", " + tmp[1] + "], ");
-			}
-			sb.append("]");
-				
-			logger.debug("'Body' before: {}", sb);
+
+			// StringBuilder sb = new StringBuilder();
+			// sb.append("[");
+			// for (int[] tmp : body) {
+			// sb.append("[" + tmp[0] + ", " + tmp[1] + "], ");
+			// }
+			// sb.append("]");
+			//
+			// logger.debug("'Body' before: {}", sb);
 			if (body.size() > 1) {
 				i = body.get(len - 1)[0];
 				j = body.get(len - 1)[1];
@@ -282,31 +277,31 @@ public class Main extends JComponent {
 				i += i - body.get(len - 2)[0];
 				j += j - body.get(len - 2)[1];
 				// TODO try-catch mert hibát okozhat
-				body.add(new int[] { i, j });
+				body.add(new Integer[] { i, j });
 				logger.debug("New body added at 'x':{}, 'y':{}", i, j);
 			} else {
 				if (leftDirection) {
-					body.add(new int[] { body.get(0)[0] + 1, body.get(0)[1] });
+					body.add(new Integer[] { body.get(0)[0] + 1, body.get(0)[1] });
 				} else if (rightDirection) {
-					body.add(new int[] { body.get(0)[0] - 1, body.get(0)[1] });
+					body.add(new Integer[] { body.get(0)[0] - 1, body.get(0)[1] });
 				} else if (upDirection) {
-					body.add(new int[] { body.get(0)[0], body.get(0)[1] + 1 });
+					body.add(new Integer[] { body.get(0)[0], body.get(0)[1] + 1 });
 				} else if (downDirection) {
-					body.add(new int[] { body.get(0)[0], body.get(0)[1] - 1 });
+					body.add(new Integer[] { body.get(0)[0], body.get(0)[1] - 1 });
 				}
 			}
-			
-			sb = new StringBuilder();
-			sb.append("[");
-			for(int[] tmp : body) {
-				sb.append("[" + tmp[0] + ", " + tmp[1] + "], ");
-			}
-			sb.append("]");
-			logger.debug("'Body' after: {}", sb);
-			
-			logger.debug("'len' before eating: {}", len);
+
+			// sb = new StringBuilder();
+			// sb.append("[");
+			// for (int[] tmp : body) {
+			// sb.append("[" + tmp[0] + ", " + tmp[1] + "], ");
+			// }
+			// sb.append("]");
+			// logger.debug("'Body' after: {}", sb);
+
+			// logger.debug("'len' before eating: {}", len);
 			len = body.size();
-			logger.debug("'len' after eating: {}", len);
+			logger.debug("'len' value: {}", len);
 		}
 
 		/**
@@ -317,7 +312,7 @@ public class Main extends JComponent {
 		public void clear() {
 			logger.info("Getting rid of the old snake, and creating a new one.");
 			body.clear();
-			body.add(new int[] { x, y });
+			body.add(new Integer[] { x, y });
 			len = 1;
 			rightDirection = true;
 			logger.info("New snake created. Returning to Main..");
@@ -341,8 +336,10 @@ public class Main extends JComponent {
 
 			int key = e.getKeyCode();
 
-			if (key == KeyEvent.VK_P)
+			if (key == KeyEvent.VK_P) {
 				pause = !(pause);
+				logger.debug("'pause' value: {}", pause);
+			}
 
 			if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
 				logger.debug("Switching direction to left");
@@ -442,7 +439,7 @@ public class Main extends JComponent {
 		logger.info("Adding the menus.");
 		JMenuBar menuBar;
 		JMenu game, stats;
-		JMenuItem new_game_menuItem, quit_menuItem;
+		JMenuItem new_game, load_menuItem, save_menuItem, quit, hallOfFame;
 
 		menuBar = new JMenuBar();
 		game = new JMenu("Game");
@@ -454,49 +451,106 @@ public class Main extends JComponent {
 		menuBar.add(game);
 		menuBar.add(stats);
 
-		new_game_menuItem = new JMenuItem("New game..", KeyEvent.VK_N);
-		new_game_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+		new_game = new JMenuItem("New game..", KeyEvent.VK_N);
+		new_game.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.ALT_MASK));
 
-		quit_menuItem = new JMenuItem("Quit.", KeyEvent.VK_Q);
-		quit_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
+		save_menuItem = new JMenuItem("Save..", KeyEvent.VK_S);
+		save_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				ActionEvent.ALT_MASK));
 
-		new_game_menuItem
-				.addActionListener(e -> {
-					try {
-						do {
-							logger.warn("Asking for username.");
-							username = (String) JOptionPane
-									.showInputDialog(
-											window,
-											"Please type your nickname to be showed on the scoreboard later!\n",
-											"Type your nickname",
-											JOptionPane.QUESTION_MESSAGE);
-						} while (username.isEmpty());
-						logger.debug("Username is: {}", username);
-						window.getContentPane().add(new Main());
-						timer = 0.0;
-						inGame = true;
-					} catch (Exception e1) {
-						;
-					}
-				});
+		load_menuItem = new JMenuItem("Load..", KeyEvent.VK_L);
+		load_menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
+				ActionEvent.ALT_MASK));
 
-		quit_menuItem.addActionListener(e -> {
+		quit = new JMenuItem("Quit.", KeyEvent.VK_Q);
+		quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
+				ActionEvent.ALT_MASK));
+
+		hallOfFame = new JMenuItem("Hall of Fame", KeyEvent.VK_H);
+		hallOfFame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H,
+				ActionEvent.ALT_MASK));
+
+		new_game.addActionListener(e -> {
+			try {
+				do {
+					logger.warn("Asking for username.");
+					username = (String) JOptionPane
+							.showInputDialog(
+									window,
+									"Please type your nickname to be showed on the scoreboard later!\n",
+									"Type your nickname",
+									JOptionPane.QUESTION_MESSAGE);
+				} while (username.isEmpty());
+				logger.debug("Username is: {}", username);
+				window.getContentPane().add(new Main());
+				timer = 0.0;
+				inGame = true;
+			} catch (Exception e1) {
+				;
+			}
+		});
+
+		save_menuItem.addActionListener(e -> {
+			if (!save)
+				save = true;
+		});
+
+		load_menuItem.addActionListener(e -> {
+			if (!load)
+				load = true;
+		});
+
+		quit.addActionListener(e -> {
 			logger.warn("Quitting the game.");
 			JOptionPane.showMessageDialog(window, "Thanks for playing!",
 					"Good bye", JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		});
 
-		stats.addActionListener(e -> {
-			;
-		});
+		hallOfFame
+				.addActionListener(e -> {
+					try {
+						List<Eredmeny> li = new ArrayList<Eredmeny>();
 
-		game.add(new_game_menuItem);
+						DBConnection dbc = new DBConnection();
+						logger.info("DBConnection created.");
+
+						logger.info("Trying to connect to the database...");
+						dbc.connect(jdbcUrl);
+						logger.info("Connected to the database.");
+
+						logger.info("Executing a query.");
+						try (ResultSet rset = dbc
+								.executeQuery("SELECT * FROM SNAKE ORDER BY HOSSZ DESC")) {
+							while (rset.next()) {
+								Eredmeny tmp = new Eredmeny(rset
+										.getString("NEV"),
+										rset.getInt("HOSSZ"), rset
+												.getInt("IDO"), rset
+												.getTimestamp("DATUM"));
+								li.add(tmp);
+							}
+						}
+						logger.info("Query executed.");
+						logger.info("Creating the info panel.");
+
+						// TODO
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+
+				});
+
+		stats.add(hallOfFame);
+
+		game.add(new_game);
 		game.addSeparator();
-		game.add(quit_menuItem);
+		game.add(save_menuItem);
+		game.add(load_menuItem);
+		game.addSeparator();
+		game.add(quit);
 
 		window.setJMenuBar(menuBar);
 		logger.info("Menus added.");
@@ -584,7 +638,7 @@ public class Main extends JComponent {
 				board[i][j].setValue(0);
 			}
 
-		for (int[] i : s.body) {
+		for (Integer[] i : s.body) {
 			board[i[0]][i[1]].setValue(1);
 		}
 
@@ -648,14 +702,16 @@ public class Main extends JComponent {
 						// e.printStackTrace();
 						logger.info("Trying to connect to the database...");
 						dbc.connect(jdbcUrl);
-
+						logger.info("Connected to the database.");
 						logger.info("Trying to insert the stats into the database...");
 						dbc.executeUpdate(
 								"INSERT INTO SNAKE (NEV, HOSSZ, IDO, DATUM) VALUES(?, ?, ?, ?)",
 								username, s.getLen(), timer.intValue());
+						logger.info("Stats inserted succesfully into the databse.");
 
 						logger.info("Closing the connection...");
 						dbc.close();
+						logger.info("Connection closed.");
 
 						window.setTitle(String.format("Game Over. Length: %d",
 								s.getLen()));
@@ -663,6 +719,163 @@ public class Main extends JComponent {
 
 						logger.info("Calling the 'clear()' method of the Snake object.");
 						s.clear();
+					}
+				} else {
+					if (save) {
+						try {
+							logger.info("Saving started.");
+							DocumentBuilderFactory docFactory = DocumentBuilderFactory
+									.newInstance();
+							DocumentBuilder docBuilder = docFactory
+									.newDocumentBuilder();
+
+							Document doc = docBuilder.newDocument();
+							Element rootElement = doc
+									.createElement("gamestate");
+							doc.appendChild(rootElement);
+
+							rootElement.setAttribute("leftDirection",
+									leftDirection.toString());
+							rootElement.setAttribute("rightDirection",
+									rightDirection.toString());
+							rootElement.setAttribute("upDirection",
+									upDirection.toString());
+							rootElement.setAttribute("downDirection",
+									downDirection.toString());
+							rootElement.setAttribute("username", username);
+							rootElement.setAttribute("timer", timer.toString());
+
+							Element sfood = doc.createElement("food");
+							rootElement.appendChild(sfood);
+							sfood.setAttribute("id", "food");
+							sfood.setAttribute("x", food[0].toString());
+							sfood.setAttribute("y", food[1].toString());
+
+							Element snake = doc.createElement("snake");
+							rootElement.appendChild(snake);
+
+							snake.setAttribute("id", "snake");
+							snake.setAttribute("headX", s.getX().toString());
+							snake.setAttribute("headY", s.getY().toString());
+							snake.setAttribute("length", s.getLen().toString());
+
+							Element sBody = doc.createElement("body");
+							snake.appendChild(sBody);
+
+							for (int i = 0; i < s.body.size(); i++) {
+								Element tmp = doc.createElement("body_" + i);
+								sBody.appendChild(tmp);
+								tmp.setAttribute("x",
+										s.body.get(i)[0].toString());
+								tmp.setAttribute("y",
+										s.body.get(i)[1].toString());
+
+							}
+
+							logger.info("DOMsource created.");
+
+							TransformerFactory transformerFactory = TransformerFactory
+									.newInstance();
+							Transformer transformer = transformerFactory
+									.newTransformer();
+							transformer.setOutputProperty(OutputKeys.INDENT,
+									"yes");
+							transformer
+									.setOutputProperty(
+											"{http://xml.apache.org/xslt}indent-amount",
+											"2");
+							DOMSource source = new DOMSource(doc);
+							StreamResult result = new StreamResult(new File(
+									"src/resources/GameState.xml"));
+
+							transformer.transform(source, result);
+							logger.info("Game saved.");
+							save = false;
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+					if (load) {
+						try {
+							logger.info("Loading the game.");
+
+							File XMLFile = new File(
+									"src/resources/GameState.xml");
+							DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+									.newInstance();
+							DocumentBuilder dBuilder = dbFactory
+									.newDocumentBuilder();
+							Document doc = dBuilder.parse(XMLFile);
+							logger.info("Parsing the XML file.");
+							doc.getDocumentElement().normalize();
+
+							Element root = doc.getDocumentElement();
+
+							logger.debug("Root element: {}", doc
+									.getDocumentElement().getNodeName());
+
+							downDirection = Boolean.valueOf(root
+									.getAttribute("downDirection"));
+							leftDirection = Boolean.valueOf(root
+									.getAttribute("leftDirection"));
+							rightDirection = Boolean.valueOf(root
+									.getAttribute("rightDirection"));
+							upDirection = Boolean.valueOf(root
+									.getAttribute("upDirection"));
+							timer = Double.parseDouble(root
+									.getAttribute("timer"));
+							username = root.getAttribute("username");
+
+							logger.debug(
+									"dD:{}, lD:{}, rD:{}, uD:{}, timer:{}, username:{}",
+									downDirection, leftDirection,
+									rightDirection, upDirection, timer,
+									username);
+
+							logger.debug("Main variables loaded.");
+
+							Element foodElement = (Element) doc
+									.getElementsByTagName("food").item(0);
+							food[0] = Integer.parseInt(foodElement
+									.getAttribute("x"));
+							food[1] = Integer.parseInt(foodElement
+									.getAttribute("y"));
+							logger.debug("Food: 'x':{}, 'y':{}", food[0],
+									food[1]);
+
+							Element snakeElement = (Element) doc
+									.getElementsByTagName("snake").item(0);
+							s.setX(Integer.parseInt(snakeElement
+									.getAttribute("headX")));
+							s.setY(Integer.parseInt(snakeElement
+									.getAttribute("headY")));
+							s.setLen(Integer.parseInt(snakeElement
+									.getAttribute("length")));
+
+							logger.debug("Snake: 'x':{}, 'y':{}, 'len':{}",
+									s.getX(), s.getY(), s.len);
+
+							ArrayList<Integer[]> tmp_li = new ArrayList<Integer[]>();
+							for (int i = 0; i < s.len; i++) {
+								Integer[] tmp = new Integer[2];
+								String it = "body_" + i;
+								Element eElement = (Element) doc.getElementsByTagName(it).item(0);
+								
+								tmp[0] = Integer.parseInt(eElement
+										.getAttribute("x"));
+								tmp[1] = Integer.parseInt(eElement
+										.getAttribute("y"));
+
+								tmp_li.add(tmp);
+							}
+
+							s.setBody(tmp_li);
+							logger.debug("Snake loaded.");
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+
+						load = false;
 					}
 				}
 

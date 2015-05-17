@@ -18,19 +18,18 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * 
  * A wrapper class for the jdbc operations.
  *
  */
 public class DBConnection {
-	
+
 	/**
 	 * The Logback logger of the <code>DBConnection class</code>
 	 */
 	private static Logger logger = LoggerFactory.getLogger(DBConnection.class);
-	
+
 	private Properties prop;
 	private Connection conn;
 	private Statement stmt;
@@ -45,7 +44,6 @@ public class DBConnection {
 	 *             When something occurs during reading the file.
 	 */
 	public DBConnection() throws FileNotFoundException, IOException {
-		logger.info("Creating the DBConnection object.");
 		Properties prop = new Properties();
 		prop.load(new FileInputStream("src/resources/dbconnection.properties"));
 
@@ -59,7 +57,6 @@ public class DBConnection {
 	 */
 	public void connect(String jdbcUrl) throws SQLException {
 		conn = DriverManager.getConnection(jdbcUrl, "H_NUAUAW", "blablabla");
-		logger.info("Connected to the database.");
 	}
 
 	/**
@@ -68,7 +65,6 @@ public class DBConnection {
 	 */
 	public void close() throws SQLException {
 		conn.close();
-		logger.info("Connection closed.");
 	}
 
 	/**
@@ -96,7 +92,7 @@ public class DBConnection {
 		prepstmt.setTimestamp(4, new Timestamp(new java.util.Date().getTime()));
 
 		prepstmt.executeUpdate();
-		logger.info("Stats inserted succesfully into the databse.");
+
 	}
 
 }

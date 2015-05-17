@@ -474,7 +474,7 @@ public class Main extends JComponent {
 		new_game.addActionListener(e -> {
 			try {
 				do {
-					logger.warn("Asking for username.");
+					logger.info("Asking for username.");
 					username = (String) JOptionPane
 							.showInputDialog(
 									window,
@@ -538,6 +538,7 @@ public class Main extends JComponent {
 						// TODO
 
 					} catch (Exception e1) {
+						logger.error("DBConnection failed.");
 						e1.printStackTrace();
 					}
 
@@ -697,7 +698,7 @@ public class Main extends JComponent {
 						checkBoard(s);
 						s.move();
 					} catch (Exception e) {
-						logger.info("The Snake collided with something.");
+						logger.warn("The Snake collided with something.");
 						inGame = false;
 						// e.printStackTrace();
 						logger.info("Trying to connect to the database...");
@@ -792,6 +793,7 @@ public class Main extends JComponent {
 							logger.info("Game saved.");
 							save = false;
 						} catch (Exception e1) {
+							logger.error("Saving failed.");
 							e1.printStackTrace();
 						}
 					}
@@ -873,9 +875,9 @@ public class Main extends JComponent {
 							s.setBody(tmp_li);
 							logger.debug("Snake loaded.");
 						} catch (Exception ex) {
+							logger.error("Loading failed.");
 							ex.printStackTrace();
 						}
-
 						load = false;
 					}
 				}

@@ -859,8 +859,9 @@ public class Main extends JComponent {
 							for (int i = 0; i < s.len; i++) {
 								Integer[] tmp = new Integer[2];
 								String it = "body_" + i;
-								Element eElement = (Element) doc.getElementsByTagName(it).item(0);
-								
+								Element eElement = (Element) doc
+										.getElementsByTagName(it).item(0);
+
 								tmp[0] = Integer.parseInt(eElement
 										.getAttribute("x"));
 								tmp[1] = Integer.parseInt(eElement

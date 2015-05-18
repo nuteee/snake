@@ -34,7 +34,7 @@ public class Eredmeny {
 
 	@Override
 	public String toString() {
-		return name + " - " + len + " - " + time + " - " + date.toString();
+		return name + "   " + len + "   " + time + "sec   " + date.toString().substring(0, 19);
 	}
 	
 }

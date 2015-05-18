@@ -17,12 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,6 +35,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -443,7 +449,10 @@ public class Main extends JComponent {
 
 		menuBar = new JMenuBar();
 		game = new JMenu("Game");
+		game.setMnemonic(KeyEvent.VK_G);
+		
 		stats = new JMenu("Stats");
+		stats.setMnemonic(KeyEvent.VK_T);
 
 		game.getAccessibleContext().setAccessibleDescription(
 				"The main menu to control the game");
@@ -535,7 +544,18 @@ public class Main extends JComponent {
 						logger.info("Query executed.");
 						logger.info("Creating the info panel.");
 
-						// TODO
+						StringBuilder sb = new StringBuilder();
+						sb.append("<html><body><ol>");
+						for(Eredmeny eit : li) {
+							sb.append("<li style='font-family:Andalus; font-size: 14px;'>");
+							sb.append(eit.toString());
+						}
+						sb.append("</ol></body></html>");
+						
+						JScrollPane sp = new JScrollPane( new JLabel(sb.toString()));
+						sp.setPreferredSize(new Dimension(600, 500));
+						JOptionPane.showMessageDialog(window, sp);
+						
 
 					} catch (Exception e1) {
 						logger.error("DBConnection failed.");
@@ -791,6 +811,9 @@ public class Main extends JComponent {
 
 							transformer.transform(source, result);
 							logger.info("Game saved.");
+							
+							JOptionPane.showMessageDialog(window, "Game saved as 'GameState.xml'.");
+							
 							save = false;
 						} catch (Exception e1) {
 							logger.error("Saving failed.");
@@ -873,11 +896,13 @@ public class Main extends JComponent {
 							}
 
 							s.setBody(tmp_li);
-							logger.debug("Snake loaded.");
+							logger.debug("Game loaded.");
 						} catch (Exception ex) {
 							logger.error("Loading failed.");
 							ex.printStackTrace();
 						}
+						
+						JOptionPane.showMessageDialog(window, "Game loaded from the 'GameState.xml'.");
 						load = false;
 					}
 				}

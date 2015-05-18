@@ -1,14 +1,19 @@
 package pkg;
 
-
 import java.sql.Timestamp;
 
+/**
+ * 
+ * @author NuTeeE
+ *
+ *         Class for storing the result from the queries.
+ */
 public class Eredmeny {
 	private String name;
 	private Integer len;
 	private Integer time;
 	private Timestamp date;
-	
+
 	public Eredmeny(String name, Integer len, Integer time, Timestamp date) {
 		this.name = name;
 		this.len = len;
@@ -34,7 +39,8 @@ public class Eredmeny {
 
 	@Override
 	public String toString() {
-		return name + "   " + len + "   " + time + "sec   " + date.toString().substring(0, 19);
+		return name + "   " + len + "   " + time + "sec   "
+				+ date.toString().substring(0, 19);
 	}
-	
+
 }

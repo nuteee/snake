@@ -52,6 +52,8 @@ public class DBConnection {
 	/**
 	 * Connects to the Database.
 	 * 
+	 * @param jdbcUrl
+	 *            The JDBC connection URL.
 	 * @throws SQLException
 	 *             When the driver can't connect to the database.
 	 */
@@ -62,6 +64,7 @@ public class DBConnection {
 	/**
 	 * 
 	 * @throws SQLException
+	 *             When the driver can't connect to the database.
 	 */
 	public void close() throws SQLException {
 		conn.close();
@@ -70,8 +73,10 @@ public class DBConnection {
 	/**
 	 * 
 	 * @param statement
-	 * @return
+	 *            The statement for the query.
+	 * @return The <code>ResultSet</code> set.
 	 * @throws SQLException
+	 *             When the query failed.
 	 */
 	public ResultSet executeQuery(String statement) throws SQLException {
 		stmt = conn.createStatement();
@@ -81,7 +86,15 @@ public class DBConnection {
 	/**
 	 * 
 	 * @param statement
+	 *            The statement for the query.
+	 * @param username
+	 *            The name to be inserted into the table with.
+	 * @param length
+	 *            The Snake's length.
+	 * @param time
+	 *            The game's time.
 	 * @throws SQLException
+	 *             When the execution fails.
 	 */
 	public void executeUpdate(String statement, String username,
 			Integer length, Integer time) throws SQLException {

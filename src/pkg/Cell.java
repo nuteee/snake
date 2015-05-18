@@ -7,15 +7,16 @@ public class Cell {
 	/**
 	 * The value of the Cell.
 	 * 
-	 * If the value is: 0 - the cell is empty; 1 - it has the part of the
-	 * snake; 2 - it contains a food.
+	 * If the value is: 0 - the cell is empty; 1 - it has the part of the snake;
+	 * 2 - it contains a food.
 	 */
 	private int value;
 
 	/**
 	 * Constructor of this object.
 	 * 
-	 * @param <code>value</code> Contains the value of that cell.
+	 * @param value
+	 *            Contains the value of that cell.
 	 */
 	public Cell(int value) {
 		this.value = value;
@@ -33,7 +34,8 @@ public class Cell {
 	/**
 	 * Sets the value of this object.
 	 * 
-	 * @param <code>value</code> The value of this object.
+	 * @param value
+	 *            The value of this object.
 	 */
 	public void setValue(int value) {
 		this.value = value;

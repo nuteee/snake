@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,8 +33,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,8 +123,10 @@ public class Main extends JComponent {
 		/**
 		 * Constructor of this object.
 		 * 
-		 * @param <code>x</code> The x value of the snake.
-		 * @param <code>y</code> The y value of the snake.
+		 * @param x
+		 *            The x value of the snake.
+		 * @param y
+		 *            The y value of the snake.
 		 */
 		public Snake(int x, int y) {
 			this.x = x;
@@ -143,9 +141,12 @@ public class Main extends JComponent {
 		/**
 		 * Constructor of this object.
 		 * 
-		 * @param <code>x</code> The x value of the snake.
-		 * @param <code>y</code> The y value of the snake.
-		 * @param <code>len</code> The length of the snake.
+		 * @param x
+		 *            The x value of the snake.
+		 * @param y
+		 *            The y value of the snake.
+		 * @param len
+		 *            The length of the snake.
 		 */
 		public Snake(int x, int y, int len) {
 			this.x = x;
@@ -180,7 +181,8 @@ public class Main extends JComponent {
 		/**
 		 * Sets the length of the snake.
 		 * 
-		 * @param <code>len</code> The length of the snake.
+		 * @param len
+		 *            The length of the snake.
 		 */
 		public void setLen(int len) {
 			this.len = len;
@@ -198,7 +200,8 @@ public class Main extends JComponent {
 		/**
 		 * Sets the x value of the snake.
 		 * 
-		 * @param <code>x</code> The x value of the snake.
+		 * @param x
+		 *            The x value of the snake.
 		 */
 		public void setX(int x) {
 			this.x = x;
@@ -216,7 +219,8 @@ public class Main extends JComponent {
 		/**
 		 * Sets the y value of the snake.
 		 * 
-		 * @param <code>y</code> The y value of the snake.
+		 * @param y
+		 *            The y value of the snake.
 		 */
 		public void setY(int y) {
 			this.y = y;
@@ -334,8 +338,9 @@ public class Main extends JComponent {
 		/**
 		 * Method for listening to pressed keys (directions).
 		 * 
-		 * @param <code>e</code> <code>KeyEvent</code> object storing
-		 *        information about the event.
+		 * @param e
+		 *            <code>KeyEvent</code> object storing information about the
+		 *            event.
 		 */
 		@Override
 		public void keyPressed(KeyEvent e) {
@@ -377,11 +382,12 @@ public class Main extends JComponent {
 		}
 	}
 
-	/**
-	 * Draws the main board.
-	 * 
-	 * @param <code>g2d</code> A <code>Graphics2D</code> object.
-	 */
+	// /**
+	// * Draws the main board.
+	// *
+	// * @param g2d
+	// * A <code>Graphics2D</code> object.
+	// */
 	public void drawBoard(Graphics2D g2d) {
 		g2d.setColor(Color.BLACK);
 		Dimension size = getSize();
@@ -396,11 +402,12 @@ public class Main extends JComponent {
 		}
 	}
 
-	/**
-	 * Paints the cells based on their values.
-	 * 
-	 * @param <code>g2d</code> A <code>Graphics2D</code> object.
-	 */
+	// /**
+	// * Paints the cells based on their values.
+	// *
+	// * @param g2d
+	// * A <code>Graphics2D</code> object.
+	// */
 	public void drawCells(Graphics2D g2d) {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
@@ -422,11 +429,12 @@ public class Main extends JComponent {
 		}
 	}
 
-	/**
-	 * Paints the stuffs.
-	 * 
-	 * @param <code>g</code> A <code>Graphics</code> object.
-	 */
+	// /**
+	// * Paints the stuffs.
+	// *
+	// * @param g
+	// * A <code>Graphics</code> object.
+	// */
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -438,7 +446,7 @@ public class Main extends JComponent {
 	/**
 	 * Creates the menubar.
 	 * 
-	 * @param <code>window<code>
+	 * @param window
 	 *            The <code>JFrame</code> object being used.
 	 */
 	public static void addMenus(JFrame window) {
@@ -450,7 +458,7 @@ public class Main extends JComponent {
 		menuBar = new JMenuBar();
 		game = new JMenu("Game");
 		game.setMnemonic(KeyEvent.VK_G);
-		
+
 		stats = new JMenu("Stats");
 		stats.setMnemonic(KeyEvent.VK_T);
 
@@ -546,16 +554,16 @@ public class Main extends JComponent {
 
 						StringBuilder sb = new StringBuilder();
 						sb.append("<html><body><ol>");
-						for(Eredmeny eit : li) {
+						for (Eredmeny eit : li) {
 							sb.append("<li style='font-family:Andalus; font-size: 14px;'>");
 							sb.append(eit.toString());
 						}
 						sb.append("</ol></body></html>");
-						
-						JScrollPane sp = new JScrollPane( new JLabel(sb.toString()));
+
+						JScrollPane sp = new JScrollPane(new JLabel(sb
+								.toString()));
 						sp.setPreferredSize(new Dimension(600, 500));
 						JOptionPane.showMessageDialog(window, sp);
-						
 
 					} catch (Exception e1) {
 						logger.error("DBConnection failed.");
@@ -579,8 +587,6 @@ public class Main extends JComponent {
 
 	/**
 	 * Initializes the board.
-	 * 
-	 * @param <code>board</code> The board being used.
 	 */
 	public static void init() {
 
@@ -666,8 +672,10 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Initializes and launch the application.
+	 * Initializes and launches the application.
 	 * 
+	 * @param args
+	 *            The arguments provided.
 	 * @throws InterruptedException
 	 *             If the thread is interrupted.
 	 * @throws IOException
@@ -675,7 +683,7 @@ public class Main extends JComponent {
 	 * @throws FileNotFoundException
 	 *             When the dbconnection.properties is not found.
 	 * @throws SQLException
-	 *             When the SQL connection fails
+	 *             When the SQL connection fails.
 	 */
 	public static void main(String[] args) throws InterruptedException,
 			FileNotFoundException, IOException, SQLException {
@@ -811,9 +819,10 @@ public class Main extends JComponent {
 
 							transformer.transform(source, result);
 							logger.info("Game saved.");
-							
-							JOptionPane.showMessageDialog(window, "Game saved as 'GameState.xml'.");
-							
+
+							JOptionPane.showMessageDialog(window,
+									"Game saved as 'GameState.xml'.");
+
 							save = false;
 						} catch (Exception e1) {
 							logger.error("Saving failed.");
@@ -901,8 +910,9 @@ public class Main extends JComponent {
 							logger.error("Loading failed.");
 							ex.printStackTrace();
 						}
-						
-						JOptionPane.showMessageDialog(window, "Game loaded from the 'GameState.xml'.");
+
+						JOptionPane.showMessageDialog(window,
+								"Game loaded from the 'GameState.xml'.");
 						load = false;
 					}
 				}

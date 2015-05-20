@@ -17,12 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 749d24f4586a9debf779d128fbc9494f191baf1d
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,12 +34,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 749d24f4586a9debf779d128fbc9494f191baf1d
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

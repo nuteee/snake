@@ -19,6 +19,7 @@ import java.util.Random;
 
 
 
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +36,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 
 
 
@@ -70,7 +72,7 @@ public class Main extends JComponent {
 	/**
 	 * The main board.
 	 */
-	public static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
+	private static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
 
 	/**
 	 * The timer used for measuring the in-game time.
@@ -590,13 +592,13 @@ public class Main extends JComponent {
 
 		logger.info("Board initialized.");
 
-		createFood();
+		createFood(board);
 	}
 
 	/**
 	 * Creates the food.
 	 */
-	public static void createFood() {
+	public static Boolean createFood(Cell[][] board) {
 		Random r = new Random();
 
 		for (int i = 0; i < board.length; i++)
@@ -614,6 +616,8 @@ public class Main extends JComponent {
 		logger.debug(
 				"The new food is created at this position: 'x':{}, 'y':{}.",
 				food[0], food[1]);
+		
+		return true;
 	}
 
 	/**
@@ -621,7 +625,7 @@ public class Main extends JComponent {
 	 * 
 	 * @return The amount of foods on the board.
 	 */
-	public static Integer amountOfFood() {
+	public static Integer amountOfFood(Cell[][] board) {
 		int c = 0;
 		for (int i = 0; i < board.length; i++)
 			for (int j = 0; j < board[i].length; j++)
@@ -639,17 +643,17 @@ public class Main extends JComponent {
 	 * @throws ArrayIndexOutOfBoundsException
 	 *             When the snake collides with the border.
 	 */
-	public static void checkBoard(Snake s)
+	public static void checkBoard(Cell[][] board, Snake s)
 			throws ArrayIndexOutOfBoundsException {
 
 		// logger.info("'checkBoard()' method started.");
 		if (board[s.body.get(0)[0]][s.body.get(0)[1]].getValue() == 2) {
 			logger.debug("Eating food at: 'x':{}, 'y':{}", s.body.get(0)[0],
 					s.body.get(0)[1]);
-			if (amountOfFood() == 1)
+			if (amountOfFood(board) == 1)
 				s.eat();
 			board[s.body.get(0)[0]][s.body.get(0)[1]].setValue(1);
-			createFood();
+			createFood(board);
 		}
 
 		for (int i = 0; i < board.length; i++)
@@ -715,7 +719,7 @@ public class Main extends JComponent {
 					// logger.info("Title updated.");
 					try {
 						// logger.info("Calling 'checkBoard' method with the Snake object.");
-						checkBoard(s);
+						checkBoard(board, s);
 						s.move();
 					} catch (Exception e) {
 						logger.warn("The Snake collided with something.");
@@ -804,7 +808,7 @@ public class Main extends JComponent {
 							transformer
 									.setOutputProperty(
 											"{http://xml.apache.org/xslt}indent-amount",
-											"2");
+											"4");
 							DOMSource source = new DOMSource(doc);
 							StreamResult result = new StreamResult(new File(
 									"src/resources/GameState.xml"));

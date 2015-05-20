@@ -1,46 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gamestate downDirection="false" leftDirection="true" rightDirection="false" timer="164.9999999999949" upDirection="false" username="NuTeeE">
-  <food id="food" x="29" y="48"/>
-  <snake headX="26" headY="25" id="snake" length="38">
-    <body>
-      <body_0 x="34" y="17"/>
-      <body_1 x="35" y="17"/>
-      <body_2 x="36" y="17"/>
-      <body_3 x="37" y="17"/>
-      <body_4 x="38" y="17"/>
-      <body_5 x="39" y="17"/>
-      <body_6 x="40" y="17"/>
-      <body_7 x="41" y="17"/>
-      <body_8 x="42" y="17"/>
-      <body_9 x="43" y="17"/>
-      <body_10 x="44" y="17"/>
-      <body_11 x="44" y="18"/>
-      <body_12 x="44" y="19"/>
-      <body_13 x="44" y="20"/>
-      <body_14 x="44" y="21"/>
-      <body_15 x="44" y="22"/>
-      <body_16 x="44" y="23"/>
-      <body_17 x="44" y="24"/>
-      <body_18 x="44" y="25"/>
-      <body_19 x="44" y="26"/>
-      <body_20 x="44" y="27"/>
-      <body_21 x="43" y="27"/>
-      <body_22 x="42" y="27"/>
-      <body_23 x="41" y="27"/>
-      <body_24 x="40" y="27"/>
-      <body_25 x="39" y="27"/>
-      <body_26 x="38" y="27"/>
-      <body_27 x="37" y="27"/>
-      <body_28 x="36" y="27"/>
-      <body_29 x="35" y="27"/>
-      <body_30 x="34" y="27"/>
-      <body_31 x="33" y="27"/>
-      <body_32 x="32" y="27"/>
-      <body_33 x="31" y="27"/>
-      <body_34 x="30" y="27"/>
-      <body_35 x="29" y="27"/>
-      <body_36 x="29" y="28"/>
-      <body_37 x="29" y="29"/>
-    </body>
-  </snake>
+<gamestate downDirection="false" leftDirection="true" rightDirection="false" timer="280.8999999999954" upDirection="false" username="NuTeeE">
+    <food id="food" x="3" y="23"/>
+    <snake headX="26" headY="25" id="snake" length="67">
+        <body>
+            <body_0 x="25" y="23"/>
+            <body_1 x="26" y="23"/>
+            <body_2 x="27" y="23"/>
+            <body_3 x="27" y="22"/>
+            <body_4 x="28" y="22"/>
+            <body_5 x="29" y="22"/>
+            <body_6 x="30" y="22"/>
+            <body_7 x="31" y="22"/>
+            <body_8 x="32" y="22"/>
+            <body_9 x="33" y="22"/>
+            <body_10 x="34" y="22"/>
+            <body_11 x="35" y="22"/>
+            <body_12 x="36" y="22"/>
+            <body_13 x="36" y="21"/>
+            <body_14 x="37" y="21"/>
+            <body_15 x="38" y="21"/>
+            <body_16 x="39" y="21"/>
+            <body_17 x="39" y="22"/>
+            <body_18 x="39" y="23"/>
+            <body_19 x="39" y="24"/>
+            <body_20 x="39" y="25"/>
+            <body_21 x="39" y="26"/>
+            <body_22 x="39" y="27"/>
+            <body_23 x="39" y="28"/>
+            <body_24 x="39" y="29"/>
+            <body_25 x="39" y="30"/>
+            <body_26 x="39" y="31"/>
+            <body_27 x="39" y="32"/>
+            <body_28 x="39" y="33"/>
+            <body_29 x="39" y="34"/>
+            <body_30 x="39" y="35"/>
+            <body_31 x="39" y="36"/>
+            <body_32 x="39" y="37"/>
+            <body_33 x="39" y="38"/>
+            <body_34 x="39" y="39"/>
+            <body_35 x="39" y="40"/>
+            <body_36 x="39" y="41"/>
+            <body_37 x="39" y="42"/>
+            <body_38 x="40" y="42"/>
+            <body_39 x="41" y="42"/>
+            <body_40 x="42" y="42"/>
+            <body_41 x="43" y="42"/>
+            <body_42 x="44" y="42"/>
+            <body_43 x="45" y="42"/>
+            <body_44 x="46" y="42"/>
+            <body_45 x="47" y="42"/>
+            <body_46 x="48" y="42"/>
+            <body_47 x="48" y="41"/>
+            <body_48 x="48" y="40"/>
+            <body_49 x="48" y="39"/>
+            <body_50 x="48" y="38"/>
+            <body_51 x="48" y="37"/>
+            <body_52 x="48" y="36"/>
+            <body_53 x="48" y="35"/>
+            <body_54 x="48" y="34"/>
+            <body_55 x="48" y="33"/>
+            <body_56 x="48" y="32"/>
+            <body_57 x="48" y="31"/>
+            <body_58 x="48" y="30"/>
+            <body_59 x="48" y="29"/>
+            <body_60 x="48" y="28"/>
+            <body_61 x="48" y="27"/>
+            <body_62 x="48" y="26"/>
+            <body_63 x="48" y="25"/>
+            <body_64 x="48" y="24"/>
+            <body_65 x="48" y="23"/>
+            <body_66 x="48" y="22"/>
+        </body>
+    </snake>
 </gamestate>

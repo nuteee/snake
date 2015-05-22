@@ -7,28 +7,30 @@
 	<description>A simple Snake game with save/load and top list developed by Gergő Balkus</description>
 	<inceptionYear>2015</inceptionYear>
 	<name>Snake</name>
+
 	<organization>
 		<name>NuTeeE</name>
 	</organization>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License, version 2</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.html</url>
+		</license>
+	</licenses>
+
 	<developers>
 		<developer>
 			<id>NuTeeE</id>
 			<name>Gergő Balkus</name>
 			<email>nuteee19@gmail.com</email>
-			<organization/>
-			<organization>NuTeeE</organization>
+			<organization />
 			<organizationUrl />
 			<roles>
 				<role>Developer</role>
 			</roles>
 		</developer>
 	</developers>
-	<licenses>
-		<license>
-			<name>GNU GPL v3</name>
-			<url>LICENSE.txt</url>
-		</license>
-	</licenses>
 	<scm>
 		<url>https://github.com/nuteee/snake/</url>
 	</scm>
@@ -39,6 +41,11 @@
 	</properties>
 	<packaging>jar</packaging>
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -94,6 +101,7 @@
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
@@ -151,13 +159,8 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
-
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId> 
+				<version>2.7</version> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -173,18 +176,14 @@
 		</plugins>
 	</build>
 	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
+		<plugins><!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId> 
+				<version>2.7</version> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.14</version>
 				<configuration>
-					<configLocation>${basedir}/src/main/resources/checkstyle.xml</configLocation>
+					<configLocation>${basedir}/src/resources/checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -203,7 +202,6 @@
 				<version>2.10.2</version>
 				<configuration>
 					<locale>en_US</locale>
-					<show>private</show>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -214,7 +212,4 @@
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 	</repositories>
-	<organization>
-		<name>NuTeeE</name>
-	</organization>
 </project>

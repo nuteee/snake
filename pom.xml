@@ -16,12 +16,19 @@
 			<name>Gergő Balkus</name>
 			<email>nuteee19@gmail.com</email>
 			<organization/>
+			<organization>NuTeeE</organization>
 			<organizationUrl />
 			<roles>
 				<role>Developer</role>
 			</roles>
 		</developer>
 	</developers>
+	<licenses>
+		<license>
+			<name>GNU GPL v3</name>
+			<url>LICENSE.txt</url>
+		</license>
+	</licenses>
 	<scm>
 		<url>https://github.com/nuteee/snake/</url>
 	</scm>
@@ -30,6 +37,7 @@
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 		<mainClass>pkg.Main</mainClass>
 	</properties>
+	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -206,4 +214,7 @@
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 	</repositories>
+	<organization>
+		<name>NuTeeE</name>
+	</organization>
 </project>

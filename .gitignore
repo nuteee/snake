@@ -1,7 +1,5 @@
-bin/
 target/
 *.class
 .classpath
 .project
 .settings/
-*.log

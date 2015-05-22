@@ -1,9 +1,8 @@
 # Snake
-A simple Snake program written in Java developed by Gergő Balkus
-(in progress)
+A simple Snake program with save/load and top list options written in Java developed by Gergő Balkus
 
 Run:
-mvn clean compile package site install exec:java -Dexec.mainClass=pkg.Main
+mvn clean compile package site site:deploy install exec:java -Dexec.mainClass=pkg.Main
 
 Note:
 OJDBC6 is needed, therefore you'll have to install the provided ojdbc6.jar to your local repository with maven.

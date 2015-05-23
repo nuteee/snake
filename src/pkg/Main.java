@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -620,7 +621,7 @@ public class Main extends JComponent {
 		logger.debug(
 				"The new food is created at this position: 'x':{}, 'y':{}.",
 				food[0], food[1]);
-		
+
 		return true;
 	}
 
@@ -817,7 +818,8 @@ public class Main extends JComponent {
 											"4");
 							DOMSource source = new DOMSource(doc);
 							StreamResult result = new StreamResult(new File(
-									"src/resources/GameState.xml"));
+									Main.class.getResource("GameState.xml")
+											.getFile()));
 
 							transformer.transform(source, result);
 							logger.info("Game saved.");
@@ -835,8 +837,8 @@ public class Main extends JComponent {
 						try {
 							logger.info("Loading the game.");
 
-							File XMLFile = new File(
-									"src/resources/GameState.xml");
+							File XMLFile = new File(Main.class.getResource(
+									"GameState.xml").getFile());
 							DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 									.newInstance();
 							DocumentBuilder dBuilder = dbFactory

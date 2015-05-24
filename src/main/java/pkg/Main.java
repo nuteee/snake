@@ -180,13 +180,13 @@ public class Main extends JComponent {
 					x, y, len);
 		}
 
-		public ArrayList<Integer[]> getBody() {
-			return body;
-		}
-
-		public void setBody(ArrayList<Integer[]> body) {
-			this.body = body;
-		}
+		// public ArrayList<Integer[]> getBody() {
+		// return body;
+		// }
+		//
+		// public void setBody(ArrayList<Integer[]> body) {
+		// this.body = body;
+		// }
 
 		/**
 		 * Returns the length of the snake.
@@ -836,8 +836,7 @@ public class Main extends JComponent {
 											"4");
 							DOMSource source = new DOMSource(doc);
 							StreamResult result = new StreamResult(new File(
-									Main.class.getResource("GameState.xml")
-											.getFile()));
+									"src/main/resources/GameState.xml"));
 
 							transformer.transform(source, result);
 							logger.info("Game saved.");
@@ -855,8 +854,8 @@ public class Main extends JComponent {
 						try {
 							logger.info("Loading the game.");
 
-							File XMLFile = new File(Main.class.getResource(
-									"GameState.xml").getFile());
+							File XMLFile = new File(
+									"src/main/resources/GameState.xml");
 							DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 									.newInstance();
 							DocumentBuilder dBuilder = dbFactory
@@ -926,7 +925,7 @@ public class Main extends JComponent {
 								tmp_li.add(tmp);
 							}
 
-							s.setBody(tmp_li);
+							s.body = tmp_li;
 							logger.debug("Game loaded.");
 						} catch (Exception ex) {
 							logger.error("Loading failed.");

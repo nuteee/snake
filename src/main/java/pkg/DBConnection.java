@@ -52,22 +52,18 @@ public class DBConnection {
 	 */
 	private static Logger logger = LoggerFactory.getLogger(DBConnection.class);
 
-	private Properties prop;
+//	private Properties prop;
 	private Connection conn;
 	private Statement stmt;
 	private PreparedStatement prepstmt;
 
 	/**
 	 * Creates the <code>DBConnection</code> wrapper class.
-	 * 
-	 * @throws FileNotFoundException
-	 *             When the dbconnection.properties file is not found.
-	 * @throws IOException
-	 *             When something occurs during reading the file.
 	 */
-	public DBConnection() throws FileNotFoundException, IOException {
-		Properties prop = new Properties();
-		prop.load(new FileInputStream("src/main/resources/dbconnection.properties"));
+	public DBConnection() /*throws FileNotFoundException, IOException*/ {
+		logger.info("Creating the DBconnection object.");
+//		Properties prop = new Properties();
+//		prop.load(new FileInputStream("src/main/resources/dbconnection.properties"));
 
 	}
 
@@ -82,6 +78,7 @@ public class DBConnection {
 	 */
 	public Connection connect(String jdbcUrl) throws SQLException {
 		conn = DriverManager.getConnection(jdbcUrl, "H_NUAUAW", "blablabla");
+		logger.info("Connected to the Database.");
 		return conn;
 	}
 
@@ -89,9 +86,12 @@ public class DBConnection {
 	 * 
 	 * @throws SQLException
 	 *             When the driver can't connect to the database.
+	 * @return True if the connection is closed else false.
 	 */
-	public void close() throws SQLException {
+	public Boolean close() throws SQLException {
 		conn.close();
+		logger.info("Connection closed.");
+		return conn.isClosed() ? true : false;
 	}
 
 	/**
@@ -104,6 +104,7 @@ public class DBConnection {
 	 */
 	public ResultSet executeQuery(String statement) throws SQLException {
 		stmt = conn.createStatement();
+		logger.info("Statement created. Executing the query.");
 		return stmt.executeQuery(statement);
 	}
 
@@ -129,6 +130,7 @@ public class DBConnection {
 		prepstmt.setTimestamp(4, new Timestamp(new java.util.Date().getTime()));
 
 		prepstmt.executeUpdate();
+		logger.info("Statement executed.");
 
 	}
 

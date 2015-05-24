@@ -67,7 +67,7 @@ public class DBConnection {
 	 */
 	public DBConnection() throws FileNotFoundException, IOException {
 		Properties prop = new Properties();
-		prop.load(new FileInputStream("src/resources/dbconnection.properties"));
+		prop.load(new FileInputStream("src/main/resources/dbconnection.properties"));
 
 	}
 

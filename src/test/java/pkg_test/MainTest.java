@@ -5,6 +5,9 @@ package pkg_test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.junit.Before;
@@ -26,7 +29,7 @@ public class MainTest {
 	private DBConnection dbc;
 
 	@Before
-	public void setUp() throws SQLException {
+	public void setUp() throws SQLException, FileNotFoundException, IOException {
 		windowSize = Main.window_size;
 		board = new Cell[windowSize/10][windowSize/10];
 		for (int i = 0; i < windowSize/10; i++) {
@@ -37,7 +40,7 @@ public class MainTest {
 
 		snake = new Main.Snake(windowSize/20 + 1, windowSize/20 + 1);
 		
-		dbc.connect(Main.jdbcUrl);
+		dbc = new DBConnection();
 	}
 
 	@Test
@@ -83,6 +86,26 @@ public class MainTest {
 	public void testAmountOfFoodAfterCreateFood() {
 		Main.createFood(board);
 		assertEquals(new Integer(1), Main.amountOfFood(board));
+	}
+	
+	@Test
+	public void testDBConnectionClass() {
+		assertEquals(dbc.getClass(), DBConnection.class);
+	}
+	
+	@Test
+	public void testDBConnectionConnection() throws SQLException {
+		Connection conn = dbc.connect(Main.jdbcUrl);
+		if(!conn.isClosed())
+			assertEquals(true, true);
+	}
+	
+	@Test
+	public void testDBConnectionClose() throws SQLException {
+		Connection conn = dbc.connect(Main.jdbcUrl);
+		conn.close();
+		if(conn.isClosed())
+			assertEquals(true, true);
 	}
 
 }

@@ -81,9 +81,6 @@
 	<profiles>
 		<profile>
 			<id>jul</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>org.slf4j</groupId>
@@ -95,6 +92,9 @@
 		</profile>
 		<profile>
 			<id>logback</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>ch.qos.logback</groupId>

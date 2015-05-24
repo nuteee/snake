@@ -1,14 +1,19 @@
 /**
  * 
  */
-package pkg;
+package pkg_test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.sql.SQLException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import pkg.Main.Tadapter;
+import pkg.Cell;
+import pkg.DBConnection;
+import pkg.Main;
+
 
 /**
  * @author nute
@@ -18,9 +23,10 @@ public class MainTest {
 	private Cell[][] board;
 	private Main.Snake snake;
 	private int windowSize;
+	private DBConnection dbc;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws SQLException {
 		windowSize = Main.window_size;
 		board = new Cell[windowSize/10][windowSize/10];
 		for (int i = 0; i < windowSize/10; i++) {
@@ -30,6 +36,8 @@ public class MainTest {
 		}
 
 		snake = new Main.Snake(windowSize/20 + 1, windowSize/20 + 1);
+		
+		dbc.connect(Main.jdbcUrl);
 	}
 
 	@Test

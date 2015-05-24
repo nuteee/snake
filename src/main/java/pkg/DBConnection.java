@@ -78,9 +78,11 @@ public class DBConnection {
 	 *            The JDBC connection URL.
 	 * @throws SQLException
 	 *             When the driver can't connect to the database.
+	 * @return The {@link Connection} object.
 	 */
-	public void connect(String jdbcUrl) throws SQLException {
+	public Connection connect(String jdbcUrl) throws SQLException {
 		conn = DriverManager.getConnection(jdbcUrl, "H_NUAUAW", "blablabla");
+		return conn;
 	}
 
 	/**

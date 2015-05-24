@@ -33,7 +33,6 @@
 	</developers>
 	<scm>
 		<url>https://github.com/nuteee/snake/</url>
-		<developerConnection>NuTeeE</developerConnection>
 	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -149,7 +148,6 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -218,8 +216,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId> 
-				<version>2.7</version> </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -235,14 +236,18 @@
 		</plugins>
 	</build>
 	<reporting>
-		<plugins><!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId> 
-				<version>2.7</version> </plugin> -->
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.14</version>
 				<configuration>
-					<configLocation>${basedir}/src/resources/checkstyle.xml</configLocation>
+					<configLocation>${basedir}/src/main/resources/checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -271,5 +276,4 @@
 			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 		</repository>
 	</repositories>
-	<url>https://github.com/nuteee/snake/</url>
 </project>

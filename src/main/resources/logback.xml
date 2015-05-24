@@ -68,10 +68,22 @@
 		eljussanak a gyökér logger-hez, így az állományokban is
 		megjelenjenek.
 	-->
-	<logger name="pkg.Main" level="ALL" additivity="true">
+	<logger name="pkg.snake.View.Main" level="ALL" additivity="true">
 		<appender-ref ref="STDOUT"/>
 	</logger>
-	<logger name="pkg.DBConnection" level="ALL" additivity="true">
+	<logger name="pkg.snake.Control.DBConnection" level="ALL" additivity="true">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="pkg.snake.Control.Tadapter" level="ALL" additivity="true">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="pkg.snake.Model.Cell" level="ALL" additivity="true">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="pkg.snake.Model.Eredmeny" level="ALL" additivity="true">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="pkg.snake.Model.Snake" level="ALL" additivity="true">
 		<appender-ref ref="STDOUT"/>
 	</logger>
 

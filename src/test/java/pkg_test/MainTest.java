@@ -3,7 +3,32 @@
  */
 package pkg_test;
 
-import static org.junit.Assert.*;
+/*
+ * #%L
+ * Snake
+ * %%
+ * Copyright (C) 2015 NuTeeE
+ * %%
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 2 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/gpl-2.0.html>.
+ * #L%
+ */
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,11 +41,12 @@ import java.sql.Timestamp;
 import org.junit.Before;
 import org.junit.Test;
 
-import pkg.Cell;
-import pkg.DBConnection;
-import pkg.Eredmeny;
-import pkg.Main;
-import pkg.Main.Snake;
+import pkg.snake.Control.DBConnection;
+import pkg.snake.Control.Tadapter;
+import pkg.snake.Model.Cell;
+import pkg.snake.Model.Eredmeny;
+import pkg.snake.Model.Snake;
+import pkg.snake.View.Main;
 
 /**
  * @author nute
@@ -28,10 +54,11 @@ import pkg.Main.Snake;
  */
 public class MainTest {
 	private Cell[][] board;
-	private Main.Snake snake;
+	private Snake snake;
 	private int windowSize;
 	private DBConnection dbc;
 	private Boolean leftDirection, upDirection, rightDirection, downDirection;
+	private Tadapter adapter;
 
 	@Before
 	public void setUp() throws SQLException, FileNotFoundException, IOException {
@@ -40,6 +67,7 @@ public class MainTest {
 		upDirection = Main.upDirection;
 		rightDirection = Main.rightDirection;
 		downDirection = Main.downDirection;
+		
 		board = new Cell[windowSize / 10][windowSize / 10];
 		for (int i = 0; i < windowSize / 10; i++) {
 			for (int j = 0; j < windowSize / 10; j++) {
@@ -50,26 +78,38 @@ public class MainTest {
 		snake = new Snake(windowSize / 20 + 1, windowSize / 20 + 1, 4);
 
 		dbc = new DBConnection();
+		
+		adapter = new Tadapter();
 	}
 
 	@Test
 	public void testBoardAfterInit() {
-		int c = 0;
-		for (int i = 0; i < windowSize / 10; i++) {
-			for (int j = 0; j < windowSize / 10; j++) {
-				c += board[i][j].getValue();
-			}
-		}
-
-		assertEquals(0, c);
+		Main.init(board);
+		assertEquals(new Integer(1), Main.amountOfFood(board));
 	}
 
 	@Test
-	public void testSnakeClass() {
+	public void testSnakeClass() throws Exception {
 		assertEquals(Snake.class, new Snake(0, 0).getClass());
 		assertEquals(Snake.class, new Snake(0, 0, 1).getClass());
 		snake.setLen(4);
 		assertEquals(snake.getLen(), new Integer(4));
+		snake.eat();
+		assertEquals(snake.getLen(), new Integer(5));
+		snake.setX(0);
+		assertEquals(new Integer(0), snake.getX());
+		snake.setY(0);
+		assertEquals(new Integer(0), snake.getY());
+		snake = new Snake(windowSize / 20 + 1, windowSize / 20 + 1, 1);
+		snake.eat();
+		assertEquals(snake.getLen(), new Integer(2));
+		snake.move(board);
+		snake.clear();
+		assertEquals(snake.getLen(), new Integer(1));
+		assertTrue(rightDirection);
+		
+		
+		
 	}
 	
 	@Test
@@ -157,7 +197,7 @@ public class MainTest {
 		assertEquals(e1.toString(), e2.toString());
 		assertTrue(e1.equals(e1));
 		assertFalse(e1.equals(null));
-		assertFalse(e1.equals(new Main.Tadapter()));
+		assertFalse(e1.equals(new Tadapter()));
 		assertFalse(e1.equals(e3));
 		assertFalse(e1.equals(new Eredmeny(null, null, null, null)));
 		assertTrue(e1.equals(e2));

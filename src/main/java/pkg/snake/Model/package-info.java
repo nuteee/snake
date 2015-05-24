@@ -1,7 +1,8 @@
 /**
- * Package of the program
+ * @author nute
+ * Package for the models of the program.
  */
-package pkg;
+package pkg.snake.Model;
 
 /*
  * #%L
@@ -24,4 +25,3 @@ package pkg;
  * <http://www.gnu.org/licenses/gpl-2.0.html>.
  * #L%
  */
-

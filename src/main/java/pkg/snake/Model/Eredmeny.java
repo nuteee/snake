@@ -1,4 +1,4 @@
-package pkg;
+package pkg.snake.Model;
 
 /*
  * #%L
@@ -24,6 +24,9 @@ package pkg;
 
 import java.sql.Timestamp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * @author NuTeeE
@@ -31,40 +34,103 @@ import java.sql.Timestamp;
  *         Class for storing the result from the queries.
  */
 public class Eredmeny {
+	
+	/**
+	 * The Logback logger of the {@code Eredmeny} class.
+	 */
+	private static Logger logger = LoggerFactory.getLogger(Eredmeny.class);
+	
+	/**
+	 * The username.
+	 */
 	private String name;
+	/**
+	 * The length of the snake.
+	 */
 	private Integer len;
+	/**
+	 * The game's time.
+	 */
 	private Integer time;
+	/**
+	 * The Date of the upload.
+	 */
 	private Timestamp date;
 
+	/**
+	 * Constructor of the {@code Eredmeny} class.
+	 * 
+	 * @param name
+	 *            The username.
+	 * @param len
+	 *            The length of the snake.
+	 * @param time
+	 *            The game's time.
+	 * @param date
+	 *            The Date of the upload.
+	 */
 	public Eredmeny(String name, Integer len, Integer time, Timestamp date) {
+		logger.info("Creating 'Eredmeny' object.");
 		this.name = name;
 		this.len = len;
 		this.time = time;
 		this.date = date;
 	}
 
+	/**
+	 * Returns the username.
+	 * 
+	 * @return The username.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Returns the length of the snake.
+	 * 
+	 * @return The length of the snake.
+	 */
 	public Integer getLen() {
 		return len;
 	}
 
+	/**
+	 * Returns the game's time.
+	 * 
+	 * @return The game's time.
+	 */
 	public Integer getTime() {
 		return time;
 	}
 
+	/**
+	 * Returns the Date of the upload.
+	 * 
+	 * @return The Date of the upload.
+	 */
 	public Timestamp getDate() {
 		return date;
 	}
 
+	/**
+	 * Returns the {@code Eredmeny} object in a formatted way.
+	 * 
+	 * @return the {@code Eredmeny} object in a formatted way.
+	 */
 	@Override
 	public String toString() {
 		return name + "   " + len + "   " + time + "sec   "
 				+ date.toString().substring(0, 19);
 	}
 
+	/**
+	 * Checks if the object as a parameter is the same as {@code this} object.
+	 * 
+	 * @param obj
+	 *            The object to compare.
+	 * @return True if they are the same, false otherwise.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

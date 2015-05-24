@@ -1,4 +1,4 @@
-package pkg;
+package pkg.snake.Control;
 
 /*
  * #%L
@@ -22,20 +22,13 @@ package pkg;
  * #L%
  */
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,13 +41,22 @@ import org.slf4j.LoggerFactory;
 public class DBConnection {
 
 	/**
-	 * The Logback logger of the <code>DBConnection class</code>
+	 * The Logback logger of the {@code DBConnection} class.
 	 */
 	private static Logger logger = LoggerFactory.getLogger(DBConnection.class);
 
 //	private Properties prop;
+	/**
+	 * The {@code Connection} object.
+	 */
 	private Connection conn;
+	/**
+	 * The {@code Statement} object.
+	 */
 	private Statement stmt;
+	/**
+	 * The {@code PreparedStatement} object.
+	 */
 	private PreparedStatement prepstmt;
 
 	/**

@@ -1,5 +1,5 @@
 /**
- * Package of the <code>Snake</code> program
+ * Package of the program
  */
 package pkg;
 

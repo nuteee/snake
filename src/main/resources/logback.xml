@@ -1,90 +1,68 @@
-<!--
-  #%L
-  Snake
-  %%
-  Copyright (C) 2015 NuTeeE
-  %%
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as
-  published by the Free Software Foundation, either version 2 of the
-  License, or (at your option) any later version.
-  
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public
-  License along with this program.  If not, see
-  <http://www.gnu.org/licenses/gpl-2.0.html>.
-  #L%
-  -->
-<!--
-	Ha a scan attribútum értékét "true"-ra módosítjuk, akkor a Logback
-	percenként ellenőrzi, hogy változott-e a konfigurációs állomány.
-	Változás esetén megfelelően igazítja hozzá a beállításokat. Az állomány
-	így akár futásidőben is módosítható.
--->
+<!-- #%L Snake %% Copyright (C) 2015 NuTeeE %% This program is free software: 
+	you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 
+	2 of the License, or (at your option) any later version. This program is 
+	distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+	without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+	PURPOSE. See the GNU General Public License for more details. You should 
+	have received a copy of the GNU General Public License along with this program. 
+	If not, see <http://www.gnu.org/licenses/gpl-2.0.html>. #L% -->
+<!-- Ha a scan attribútum értékét "true"-ra módosítjuk, akkor a Logback percenként 
+	ellenőrzi, hogy változott-e a konfigurációs állomány. Változás esetén megfelelően 
+	igazítja hozzá a beállításokat. Az állomány így akár futásidőben is módosítható. -->
 <configuration scan="false" debug="false">
 
 	<!-- A konzolon minden eseményt naplózunk -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %boldBlue(%.-1level) %logger{36} - %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %boldBlue(%.-3level) %logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
 
-	<!--
-		Az állományba csak adott szintű vagy annál magasabb szintű
-		eseményeket naplózunk (a jelenlegi beállítás esetén ERROR és
-		WARN szintű eseményeket)
-	-->
+	<!-- Az állományba csak adott szintű vagy annál magasabb szintű eseményeket 
+		naplózunk (a jelenlegi beállítás esetén ERROR és WARN szintű eseményeket) -->
 	<appender name="FILE1" class="ch.qos.logback.core.FileAppender">
 		<file>messages.log</file>
 		<append>false</append>
-		<!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>DEBUG</level>
-		</filter>-->
-		
+		<!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter"> <level>DEBUG</level> 
+			</filter> -->
+
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
 
-	<!--
-		A gyökér logger mindent az állományba naplóz
-	-->
+	<!-- A gyökér logger mindent az állományba naplóz -->
 	<root level="ALL">
-		<appender-ref ref="FILE1"/>
+		<appender-ref ref="FILE1" />
 	</root>
 
-	<!--
-		Az alábbi logger mindent a konzolra naplóz.
-
-		Az additivity="false" azt jelenti, hogy a logger-be
-		naplózott események nem adódnak tovább a hierarchiában
-		fölötte lévő logger objektumokhoz. Az attribútum értékét
-		"true"-ra kell módosítani ahhoz, hogy az események
-		eljussanak a gyökér logger-hez, így az állományokban is
-		megjelenjenek.
-	-->
+	<!-- Az alábbi logger mindent a konzolra naplóz. Az additivity="false" azt 
+		jelenti, hogy a logger-be naplózott események nem adódnak tovább a hierarchiában 
+		fölötte lévő logger objektumokhoz. Az attribútum értékét "true"-ra kell módosítani 
+		ahhoz, hogy az események eljussanak a gyökér logger-hez, így az állományokban 
+		is megjelenjenek. -->
 	<logger name="pkg.snake.View.Main" level="ALL" additivity="true">
-		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="pkg.snake.Control.DBConnection" level="ALL" additivity="true">
-		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="pkg.snake.Control.Tadapter" level="ALL" additivity="true">
-		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="pkg.snake.Control.CoreMethods" level="ALL" additivity="true">
+		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="pkg.snake.Model.Cell" level="ALL" additivity="true">
-		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="pkg.snake.Model.Eredmeny" level="ALL" additivity="true">
-		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="pkg.snake.Model.Snake" level="ALL" additivity="true">
-		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="STDOUT" />
 	</logger>
+
 
 </configuration>

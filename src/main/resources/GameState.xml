@@ -1,99 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-  #%L
-  Snake
-  %%
-  Copyright (C) 2015 NuTeeE
-  %%
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as
-  published by the Free Software Foundation, either version 2 of the
-  License, or (at your option) any later version.
-  
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public
-  License along with this program.  If not, see
-  <http://www.gnu.org/licenses/gpl-2.0.html>.
-  #L%
-  -->
-
-<gamestate downDirection="false" leftDirection="false" rightDirection="false" timer="276.89999999999446" upDirection="true" username="asd">
-    <food id="food" x="44" y="14"/>
-    <snake headX="26" headY="25" id="snake" length="69">
+<gamestate downDirection="true" leftDirection="false" rightDirection="false" timer="5.399999999999997" upDirection="false" username="k">
+    <food id="food" x="43" y="45"/>
+    <snake headX="26" headY="25" id="snake" length="2">
         <body>
-            <body_0 x="2" y="26"/>
-            <body_1 x="2" y="27"/>
-            <body_2 x="2" y="28"/>
-            <body_3 x="2" y="29"/>
-            <body_4 x="2" y="30"/>
-            <body_5 x="2" y="31"/>
-            <body_6 x="2" y="32"/>
-            <body_7 x="2" y="33"/>
-            <body_8 x="2" y="34"/>
-            <body_9 x="2" y="35"/>
-            <body_10 x="2" y="36"/>
-            <body_11 x="2" y="37"/>
-            <body_12 x="2" y="38"/>
-            <body_13 x="2" y="39"/>
-            <body_14 x="2" y="40"/>
-            <body_15 x="2" y="41"/>
-            <body_16 x="2" y="42"/>
-            <body_17 x="2" y="43"/>
-            <body_18 x="3" y="43"/>
-            <body_19 x="4" y="43"/>
-            <body_20 x="5" y="43"/>
-            <body_21 x="6" y="43"/>
-            <body_22 x="7" y="43"/>
-            <body_23 x="8" y="43"/>
-            <body_24 x="9" y="43"/>
-            <body_25 x="10" y="43"/>
-            <body_26 x="11" y="43"/>
-            <body_27 x="12" y="43"/>
-            <body_28 x="13" y="43"/>
-            <body_29 x="14" y="43"/>
-            <body_30 x="15" y="43"/>
-            <body_31 x="16" y="43"/>
-            <body_32 x="17" y="43"/>
-            <body_33 x="18" y="43"/>
-            <body_34 x="19" y="43"/>
-            <body_35 x="20" y="43"/>
-            <body_36 x="21" y="43"/>
-            <body_37 x="22" y="43"/>
-            <body_38 x="23" y="43"/>
-            <body_39 x="24" y="43"/>
-            <body_40 x="25" y="43"/>
-            <body_41 x="26" y="43"/>
-            <body_42 x="27" y="43"/>
-            <body_43 x="28" y="43"/>
-            <body_44 x="29" y="43"/>
-            <body_45 x="30" y="43"/>
-            <body_46 x="31" y="43"/>
-            <body_47 x="32" y="43"/>
-            <body_48 x="33" y="43"/>
-            <body_49 x="34" y="43"/>
-            <body_50 x="35" y="43"/>
-            <body_51 x="36" y="43"/>
-            <body_52 x="37" y="43"/>
-            <body_53 x="38" y="43"/>
-            <body_54 x="39" y="43"/>
-            <body_55 x="40" y="43"/>
-            <body_56 x="40" y="42"/>
-            <body_57 x="40" y="41"/>
-            <body_58 x="40" y="40"/>
-            <body_59 x="40" y="39"/>
-            <body_60 x="40" y="38"/>
-            <body_61 x="40" y="37"/>
-            <body_62 x="40" y="36"/>
-            <body_63 x="40" y="35"/>
-            <body_64 x="40" y="34"/>
-            <body_65 x="40" y="33"/>
-            <body_66 x="40" y="32"/>
-            <body_67 x="40" y="31"/>
-            <body_68 x="40" y="30"/>
+            <body_0 x="19" y="16"/>
+            <body_1 x="19" y="15"/>
         </body>
     </snake>
 </gamestate>

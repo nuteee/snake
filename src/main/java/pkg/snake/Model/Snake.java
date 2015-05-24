@@ -27,14 +27,27 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pkg.snake.Control.CoreMethods;
 import pkg.snake.View.Main;
 
 /**
  * The class of the controlled snake.
  */
 public class Snake {
+
+	/**
+	 * The Logback logger of the {@code Snake} class.
+	 */
 	private static Logger logger = LoggerFactory.getLogger(Snake.class);
+
+	/**
+	 * The {@code Snake}'s values.
+	 */
 	public int x, y, len;
+
+	/**
+	 * The {@code Snake}'s body.
+	 */
 	public ArrayList<Integer[]> body;
 
 	/**
@@ -244,10 +257,10 @@ public class Snake {
 		if (board[this.body.get(0)[0]][this.body.get(0)[1]].getValue() == 2) {
 			logger.debug("Eating food at: 'x':{}, 'y':{}", this.body.get(0)[0],
 					this.body.get(0)[1]);
-			if (Main.amountOfFood(board) == 1)
+			if (CoreMethods.amountOfFood(board) == 1)
 				this.eat();
 			board[this.body.get(0)[0]][this.body.get(0)[1]].setValue(1);
-			Main.createFood(board);
+			CoreMethods.createFood(board);
 		}
 
 		for (int i = 0; i < board.length; i++)

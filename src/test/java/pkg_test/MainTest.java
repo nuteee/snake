@@ -41,6 +41,7 @@ import java.sql.Timestamp;
 import org.junit.Before;
 import org.junit.Test;
 
+import pkg.snake.Control.CoreMethods;
 import pkg.snake.Control.DBConnection;
 import pkg.snake.Control.Tadapter;
 import pkg.snake.Model.Cell;
@@ -57,17 +58,11 @@ public class MainTest {
 	private Snake snake;
 	private int windowSize;
 	private DBConnection dbc;
-	private Boolean leftDirection, upDirection, rightDirection, downDirection;
-	private Tadapter adapter;
 
 	@Before
 	public void setUp() throws SQLException, FileNotFoundException, IOException {
 		windowSize = Main.window_size;
-		leftDirection = Main.leftDirection;
-		upDirection = Main.upDirection;
-		rightDirection = Main.rightDirection;
-		downDirection = Main.downDirection;
-		
+
 		board = new Cell[windowSize / 10][windowSize / 10];
 		for (int i = 0; i < windowSize / 10; i++) {
 			for (int j = 0; j < windowSize / 10; j++) {
@@ -78,14 +73,12 @@ public class MainTest {
 		snake = new Snake(windowSize / 20 + 1, windowSize / 20 + 1, 4);
 
 		dbc = new DBConnection();
-		
-		adapter = new Tadapter();
 	}
 
 	@Test
 	public void testBoardAfterInit() {
-		Main.init(board);
-		assertEquals(new Integer(1), Main.amountOfFood(board));
+		CoreMethods.init(board);
+		assertEquals(new Integer(1), CoreMethods.amountOfFood(board));
 	}
 
 	@Test
@@ -106,12 +99,24 @@ public class MainTest {
 		snake.move(board);
 		snake.clear();
 		assertEquals(snake.getLen(), new Integer(1));
-		assertTrue(rightDirection);
-		
-		
-		
+		Main.rightDirection = false;
+		Main.downDirection = true;
+		snake.move(board);
+		snake.clear();
+		assertEquals(snake.getLen(), new Integer(1));
+		Main.downDirection = false;
+		Main.leftDirection = true;
+		snake.move(board);
+		snake.clear();
+		assertEquals(snake.getLen(), new Integer(1));
+		Main.leftDirection = false;
+		Main.upDirection = true;
+		snake.move(board);
+		snake.clear();
+		assertEquals(snake.getLen(), new Integer(1));
+
 	}
-	
+
 	@Test
 	public void testCellClass() {
 		assertEquals(Cell.class, new Cell(0).getClass());
@@ -126,18 +131,18 @@ public class MainTest {
 
 	@Test
 	public void testAmountOfFoodAfterInit() {
-		assertEquals(new Integer(0), Main.amountOfFood(board));
+		assertEquals(new Integer(0), CoreMethods.amountOfFood(board));
 	}
 
 	@Test
 	public void testCreateFood() {
-		assertTrue(Main.createFood(board));
+		assertTrue(CoreMethods.createFood(board));
 	}
 
 	@Test
 	public void testAmountOfFoodAfterCreateFood() {
-		Main.createFood(board);
-		assertEquals(new Integer(1), Main.amountOfFood(board));
+		CoreMethods.createFood(board);
+		assertEquals(new Integer(1), CoreMethods.amountOfFood(board));
 	}
 
 	@Test
@@ -165,31 +170,33 @@ public class MainTest {
 				"test", 1000, -1);
 
 		ResultSet rset = dbc.executeQuery("SELECT * FROM SNAKE");
-		
+
 		boolean contains = false;
 		while (rset.next()) {
 			Eredmeny tmp = new Eredmeny(rset.getString("NEV"),
 					rset.getInt("HOSSZ"), rset.getInt("IDO"),
 					rset.getTimestamp("DATUM"));
-			if(tmp.getTime() == -1)
+			if (tmp.getTime() == -1)
 				contains = true;
 		}
-		PreparedStatement p = conn.prepareStatement("DELETE FROM SNAKE WHERE IDO=-1");
+		PreparedStatement p = conn
+				.prepareStatement("DELETE FROM SNAKE WHERE IDO=-1");
 		p.executeUpdate();
 		p.close();
-		
+
 		dbc.close();
-		
+
 		assertTrue(contains);
 	}
-	
+
 	@Test
 	public void testEredmeny() {
 		Timestamp t = new Timestamp(new java.util.Date().getTime());
 		Eredmeny e1 = new Eredmeny("nute", 1, 5, t);
 		Eredmeny e2 = new Eredmeny("nute", 1, 5, t);
-		Eredmeny e3 = new Eredmeny("asd", 9, 9, new Timestamp(new java.util.Date().getTime()));
-		
+		Eredmeny e3 = new Eredmeny("asd", 9, 9, new Timestamp(
+				new java.util.Date().getTime()));
+
 		assertEquals(e1.getName(), e2.getName());
 		assertEquals(e1.getLen(), e2.getLen());
 		assertEquals(e1.getDate(), e2.getDate());
@@ -201,7 +208,7 @@ public class MainTest {
 		assertFalse(e1.equals(e3));
 		assertFalse(e1.equals(new Eredmeny(null, null, null, null)));
 		assertTrue(e1.equals(e2));
-		
+
 	}
 
 }

@@ -36,7 +36,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -60,6 +59,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pkg.snake.Control.CoreMethods;
 import pkg.snake.Control.DBConnection;
 import pkg.snake.Control.Tadapter;
 import pkg.snake.Model.Cell;
@@ -72,11 +72,15 @@ import pkg.snake.Model.Snake;
 public class Main extends JComponent {
 
 	/**
-	 * The Logback logger of the <code>Main</code> class
+	 * Default serial version.
+	 */
+	private static final long serialVersionUID = 1337L;
+	/**
+	 * The Logback logger of the <code>Main</code> class.
 	 */
 	private static Logger logger = LoggerFactory.getLogger(Main.class);
 	/**
-	 * The JDBC URL
+	 * The JDBC URL.
 	 */
 	public static final String jdbcUrl = "jdbc:oracle:thin:@db.inf.unideb.hu:1521:ora11g";
 	/**
@@ -341,70 +345,6 @@ public class Main extends JComponent {
 	}
 
 	/**
-	 * Initializes the board.
-	 * 
-	 * @param board
-	 *            The board to initialize.
-	 */
-	public static void init(Cell[][] board) {
-
-		for (int i = 0; i < board.length; i++)
-			for (int j = 0; j < board[i].length; j++)
-				board[i][j] = new Cell(0);
-
-		logger.info("Board initialized.");
-
-		createFood(board);
-	}
-
-	/**
-	 * Creates the food.
-	 * 
-	 * @param board
-	 *            The board to be used.
-	 * @return True if the food is created.
-	 */
-	public static Boolean createFood(Cell[][] board) {
-		Random r = new Random();
-
-		for (int i = 0; i < board.length; i++)
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j].getValue() == 2)
-					board[i][j].setValue(0);
-			}
-
-		do {
-			food[0] = r.nextInt(window_size / 10 - 1);
-			food[1] = r.nextInt(window_size / 10 - 1);
-		} while (board[food[0]][food[1]].getValue() == 1);
-
-		board[food[0]][food[1]].setValue(2);
-		logger.debug(
-				"The new food is created at this position: 'x':{}, 'y':{}.",
-				food[0], food[1]);
-
-		return true;
-	}
-
-	/**
-	 * Returns the amount of foods on the board.
-	 * 
-	 * @param board
-	 *            The board to be used.
-	 *            
-	 * @return The amount of foods on the board.
-	 */
-	public static Integer amountOfFood(Cell[][] board) {
-		int c = 0;
-		for (int i = 0; i < board.length; i++)
-			for (int j = 0; j < board[i].length; j++)
-				if (board[i][j].getValue() == 2)
-					c++;
-		logger.debug("The amountOfFood method returns: {}", c);
-		return c;
-	}
-
-	/**
 	 * Initializes and launches the application.
 	 * 
 	 * @param args
@@ -435,7 +375,7 @@ public class Main extends JComponent {
 		addMenus(window);
 		logger.info("Menus added to 'window'.");
 
-		init(board);
+		CoreMethods.init(board);
 		logger.info("Back in the Main from the init() method.");
 
 		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 1);

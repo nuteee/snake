@@ -1,0 +1,71 @@
+15:25:08.325 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:08.331 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:08.333 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:08.334 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:09.158 [main] INFO  pkg.snake.Control.DBConnection - Connected to the Database.
+15:25:09.310 [main] INFO  pkg.snake.Control.DBConnection - Statement executed.
+15:25:09.311 [main] INFO  pkg.snake.Control.DBConnection - Statement created. Executing the query.
+15:25:09.388 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.389 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.389 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.389 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.389 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.390 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.390 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.390 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.390 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.390 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.407 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.408 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.409 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.409 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.410 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.410 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.411 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.411 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.411 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:09.472 [main] INFO  pkg.snake.Control.DBConnection - Connection closed.
+15:25:09.474 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:09.474 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:09.475 [main] DEBUG pkg.snake.View.Main - The new food is created at this position: 'x':33, 'y':3.
+15:25:09.475 [main] DEBUG pkg.snake.View.Main - The amountOfFood method returns: 1
+15:25:09.476 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:09.477 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:09.478 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:09.479 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:09.479 [main] INFO  pkg.snake.View.Main - Board initialized.
+15:25:09.480 [main] DEBUG pkg.snake.View.Main - The new food is created at this position: 'x':1, 'y':1.
+15:25:09.481 [main] DEBUG pkg.snake.View.Main - The amountOfFood method returns: 1
+15:25:09.483 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:09.483 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:09.484 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:09.485 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:09.733 [main] INFO  pkg.snake.Control.DBConnection - Connected to the Database.
+15:25:09.758 [main] INFO  pkg.snake.Control.DBConnection - Connection closed.
+15:25:09.760 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:09.761 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:09.761 [main] DEBUG pkg.snake.View.Main - The new food is created at this position: 'x':17, 'y':6.
+15:25:09.763 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:09.763 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:10.012 [main] INFO  pkg.snake.Control.DBConnection - Connected to the Database.
+15:25:10.014 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:10.014 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:10.015 [main] DEBUG pkg.snake.View.Main - The amountOfFood method returns: 0
+15:25:10.016 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:10.016 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:10.017 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:10.018 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:10.018 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:10.018 [main] INFO  pkg.snake.Model.Eredmeny - Creating 'Eredmeny' object.
+15:25:10.021 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':4
+15:25:10.022 [main] INFO  pkg.snake.Control.DBConnection - Creating the DBconnection object.
+15:25:10.022 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':0, 'y':0
+15:25:10.022 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':0, 'y':0, 'len':1
+15:25:10.022 [main] INFO  pkg.snake.Model.Snake - 'eat()' started.
+15:25:10.022 [main] DEBUG pkg.snake.Model.Snake - New body added at 'x':22, 'y':26
+15:25:10.022 [main] DEBUG pkg.snake.Model.Snake - 'len' value: 5
+15:25:10.023 [main] DEBUG pkg.snake.Model.Snake - Snake object created with these parameters: 'x':26, 'y':26, 'len':1
+15:25:10.023 [main] INFO  pkg.snake.Model.Snake - 'eat()' started.
+15:25:10.023 [main] DEBUG pkg.snake.Model.Snake - 'len' value: 2
+15:25:10.023 [main] INFO  pkg.snake.Model.Snake - Getting rid of the old snake, and creating a new one.
+15:25:10.023 [main] INFO  pkg.snake.Model.Snake - New snake created. Returning to Main..

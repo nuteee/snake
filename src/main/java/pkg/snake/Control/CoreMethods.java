@@ -38,7 +38,7 @@ public class CoreMethods {
 	/**
 	 * The Logback logger of the {@code CoreMethods} class.
 	 */
-	private static Logger logger = LoggerFactory.getLogger(Main.class);
+	private static Logger logger = LoggerFactory.getLogger(CoreMethods.class);
 
 	/**
 	 * Initializes the board.

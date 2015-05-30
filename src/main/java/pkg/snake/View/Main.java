@@ -94,7 +94,7 @@ public class Main extends JComponent {
 	/**
 	 * The main board.
 	 */
-	private static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
+	public static final Cell[][] board = new Cell[window_size / 10][window_size / 10];
 
 	/**
 	 * The timer used for measuring the in-game time.
@@ -379,7 +379,13 @@ public class Main extends JComponent {
 		logger.info("Back in the Main from the init() method.");
 
 		Snake s = new Snake(window_size / 20 + 1, window_size / 20, 1);
+
 		logger.info("Back in the Main from creating the Snake object.");
+
+		Thread snakeThread = new Thread(s);
+		snakeThread.setName("Snake");
+
+		logger.info("'Snake' thread created.");
 
 		logger.info("While loop starting...");
 
@@ -395,10 +401,13 @@ public class Main extends JComponent {
 							s.getLen(), username));
 					// logger.info("Title updated.");
 					try {
-						// logger.info("Calling 'checkBoard' method with the Snake object.");
-						s.checkBoard(board);
-						s.move(board);
+						// |--------------|
+						// | MAGIC HAPPENS|
+						// |--------------|
+						snakeThread.run();
+
 					} catch (Exception e) {
+						snakeThread.interrupt();
 						logger.warn("The Snake collided with something.");
 						inGame = false;
 						// e.printStackTrace();
@@ -424,168 +433,206 @@ public class Main extends JComponent {
 					}
 				} else {
 					if (save) {
-						try {
-							logger.info("Saving started.");
-							DocumentBuilderFactory docFactory = DocumentBuilderFactory
-									.newInstance();
-							DocumentBuilder docBuilder = docFactory
-									.newDocumentBuilder();
+						Thread saveThread = new Thread(
+								() -> {
+									try {
+										logger.info("Saving started.");
+										DocumentBuilderFactory docFactory = DocumentBuilderFactory
+												.newInstance();
+										DocumentBuilder docBuilder = docFactory
+												.newDocumentBuilder();
 
-							Document doc = docBuilder.newDocument();
-							Element rootElement = doc
-									.createElement("gamestate");
-							doc.appendChild(rootElement);
+										Document doc = docBuilder.newDocument();
+										Element rootElement = doc
+												.createElement("gamestate");
+										doc.appendChild(rootElement);
 
-							rootElement.setAttribute("leftDirection",
-									leftDirection.toString());
-							rootElement.setAttribute("rightDirection",
-									rightDirection.toString());
-							rootElement.setAttribute("upDirection",
-									upDirection.toString());
-							rootElement.setAttribute("downDirection",
-									downDirection.toString());
-							rootElement.setAttribute("username", username);
-							rootElement.setAttribute("timer", timer.toString());
+										rootElement.setAttribute(
+												"leftDirection",
+												leftDirection.toString());
+										rootElement.setAttribute(
+												"rightDirection",
+												rightDirection.toString());
+										rootElement.setAttribute("upDirection",
+												upDirection.toString());
+										rootElement.setAttribute(
+												"downDirection",
+												downDirection.toString());
+										rootElement.setAttribute("username",
+												username);
+										rootElement.setAttribute("timer",
+												timer.toString());
 
-							Element sfood = doc.createElement("food");
-							rootElement.appendChild(sfood);
-							sfood.setAttribute("id", "food");
-							sfood.setAttribute("x", food[0].toString());
-							sfood.setAttribute("y", food[1].toString());
+										Element sfood = doc
+												.createElement("food");
+										rootElement.appendChild(sfood);
+										sfood.setAttribute("id", "food");
+										sfood.setAttribute("x",
+												food[0].toString());
+										sfood.setAttribute("y",
+												food[1].toString());
 
-							Element snake = doc.createElement("snake");
-							rootElement.appendChild(snake);
+										Element snake = doc
+												.createElement("snake");
+										rootElement.appendChild(snake);
 
-							snake.setAttribute("id", "snake");
-							snake.setAttribute("headX", s.getX().toString());
-							snake.setAttribute("headY", s.getY().toString());
-							snake.setAttribute("length", s.getLen().toString());
+										snake.setAttribute("id", "snake");
+										snake.setAttribute("headX", s.getX()
+												.toString());
+										snake.setAttribute("headY", s.getY()
+												.toString());
+										snake.setAttribute("length", s.getLen()
+												.toString());
 
-							Element sBody = doc.createElement("body");
-							snake.appendChild(sBody);
+										Element sBody = doc
+												.createElement("body");
+										snake.appendChild(sBody);
 
-							for (int i = 0; i < s.body.size(); i++) {
-								Element tmp = doc.createElement("body_" + i);
-								sBody.appendChild(tmp);
-								tmp.setAttribute("x",
-										s.body.get(i)[0].toString());
-								tmp.setAttribute("y",
-										s.body.get(i)[1].toString());
+										for (int i = 0; i < s.body.size(); i++) {
+											Element tmp = doc
+													.createElement("body_" + i);
+											sBody.appendChild(tmp);
+											tmp.setAttribute("x",
+													s.body.get(i)[0].toString());
+											tmp.setAttribute("y",
+													s.body.get(i)[1].toString());
 
-							}
+										}
 
-							logger.info("DOMsource created.");
+										logger.info("DOMsource created.");
 
-							TransformerFactory transformerFactory = TransformerFactory
-									.newInstance();
-							Transformer transformer = transformerFactory
-									.newTransformer();
-							transformer.setOutputProperty(OutputKeys.INDENT,
-									"yes");
-							transformer
-									.setOutputProperty(
-											"{http://xml.apache.org/xslt}indent-amount",
-											"4");
-							DOMSource source = new DOMSource(doc);
-							StreamResult result = new StreamResult(new File(
-									"src/main/resources/GameState.xml"));
+										TransformerFactory transformerFactory = TransformerFactory
+												.newInstance();
+										Transformer transformer = transformerFactory
+												.newTransformer();
+										transformer.setOutputProperty(
+												OutputKeys.INDENT, "yes");
+										transformer
+												.setOutputProperty(
+														"{http://xml.apache.org/xslt}indent-amount",
+														"4");
+										DOMSource source = new DOMSource(doc);
+										StreamResult result = new StreamResult(
+												new File(
+														"src/main/resources/GameState.xml"));
 
-							transformer.transform(source, result);
-							logger.info("Game saved.");
+										transformer.transform(source, result);
+										logger.info("Game saved.");
 
-							JOptionPane.showMessageDialog(window,
-									"Game saved as 'GameState.xml'.");
+										JOptionPane
+												.showMessageDialog(window,
+														"Game saved as 'GameState.xml'.");
 
-							save = false;
-						} catch (Exception e1) {
-							logger.error("Saving failed.");
-							e1.printStackTrace();
-						}
+									} catch (Exception e1) {
+										logger.error("Saving failed.");
+										e1.printStackTrace();
+									}
+								});
+
+						saveThread.setName("Snake-saving");
+						saveThread.start();
+						save = false;
+
 					}
 					if (load) {
-						try {
-							logger.info("Loading the game.");
+						Thread loadThread = new Thread(
+								() -> {
+									try {
+										logger.info("Loading the game.");
 
-							File XMLFile = new File(
-									"src/main/resources/GameState.xml");
-							DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-									.newInstance();
-							DocumentBuilder dBuilder = dbFactory
-									.newDocumentBuilder();
-							Document doc = dBuilder.parse(XMLFile);
-							logger.info("Parsing the XML file.");
-							doc.getDocumentElement().normalize();
+										File XMLFile = new File(
+												"src/main/resources/GameState.xml");
+										DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+												.newInstance();
+										DocumentBuilder dBuilder = dbFactory
+												.newDocumentBuilder();
+										Document doc = dBuilder.parse(XMLFile);
+										logger.info("Parsing the XML file.");
+										doc.getDocumentElement().normalize();
 
-							Element root = doc.getDocumentElement();
+										Element root = doc.getDocumentElement();
 
-							logger.debug("Root element: {}", doc
-									.getDocumentElement().getNodeName());
+										logger.debug("Root element: {}", doc
+												.getDocumentElement()
+												.getNodeName());
 
-							downDirection = Boolean.valueOf(root
-									.getAttribute("downDirection"));
-							leftDirection = Boolean.valueOf(root
-									.getAttribute("leftDirection"));
-							rightDirection = Boolean.valueOf(root
-									.getAttribute("rightDirection"));
-							upDirection = Boolean.valueOf(root
-									.getAttribute("upDirection"));
-							timer = Double.parseDouble(root
-									.getAttribute("timer"));
-							username = root.getAttribute("username");
+										downDirection = Boolean.valueOf(root
+												.getAttribute("downDirection"));
+										leftDirection = Boolean.valueOf(root
+												.getAttribute("leftDirection"));
+										rightDirection = Boolean.valueOf(root
+												.getAttribute("rightDirection"));
+										upDirection = Boolean.valueOf(root
+												.getAttribute("upDirection"));
+										timer = Double.parseDouble(root
+												.getAttribute("timer"));
+										username = root
+												.getAttribute("username");
 
-							logger.debug(
-									"dD:{}, lD:{}, rD:{}, uD:{}, timer:{}, username:{}",
-									downDirection, leftDirection,
-									rightDirection, upDirection, timer,
-									username);
+										logger.debug(
+												"dD:{}, lD:{}, rD:{}, uD:{}, timer:{}, username:{}",
+												downDirection, leftDirection,
+												rightDirection, upDirection,
+												timer, username);
 
-							logger.debug("Main variables loaded.");
+										logger.debug("Main variables loaded.");
 
-							Element foodElement = (Element) doc
-									.getElementsByTagName("food").item(0);
-							food[0] = Integer.parseInt(foodElement
-									.getAttribute("x"));
-							food[1] = Integer.parseInt(foodElement
-									.getAttribute("y"));
-							logger.debug("Food: 'x':{}, 'y':{}", food[0],
-									food[1]);
+										Element foodElement = (Element) doc
+												.getElementsByTagName("food")
+												.item(0);
+										food[0] = Integer.parseInt(foodElement
+												.getAttribute("x"));
+										food[1] = Integer.parseInt(foodElement
+												.getAttribute("y"));
+										logger.debug("Food: 'x':{}, 'y':{}",
+												food[0], food[1]);
 
-							Element snakeElement = (Element) doc
-									.getElementsByTagName("snake").item(0);
-							s.setX(Integer.parseInt(snakeElement
-									.getAttribute("headX")));
-							s.setY(Integer.parseInt(snakeElement
-									.getAttribute("headY")));
-							s.setLen(Integer.parseInt(snakeElement
-									.getAttribute("length")));
+										Element snakeElement = (Element) doc
+												.getElementsByTagName("snake")
+												.item(0);
+										s.setX(Integer.parseInt(snakeElement
+												.getAttribute("headX")));
+										s.setY(Integer.parseInt(snakeElement
+												.getAttribute("headY")));
+										s.setLen(Integer.parseInt(snakeElement
+												.getAttribute("length")));
 
-							logger.debug("Snake: 'x':{}, 'y':{}, 'len':{}",
-									s.getX(), s.getY(), s.len);
+										logger.debug(
+												"Snake: 'x':{}, 'y':{}, 'len':{}",
+												s.getX(), s.getY(), s.len);
 
-							ArrayList<Integer[]> tmp_li = new ArrayList<Integer[]>();
-							for (int i = 0; i < s.len; i++) {
-								Integer[] tmp = new Integer[2];
-								String it = "body_" + i;
-								Element eElement = (Element) doc
-										.getElementsByTagName(it).item(0);
+										ArrayList<Integer[]> tmp_li = new ArrayList<Integer[]>();
+										for (int i = 0; i < s.len; i++) {
+											Integer[] tmp = new Integer[2];
+											String it = "body_" + i;
+											Element eElement = (Element) doc
+													.getElementsByTagName(it)
+													.item(0);
 
-								tmp[0] = Integer.parseInt(eElement
-										.getAttribute("x"));
-								tmp[1] = Integer.parseInt(eElement
-										.getAttribute("y"));
+											tmp[0] = Integer.parseInt(eElement
+													.getAttribute("x"));
+											tmp[1] = Integer.parseInt(eElement
+													.getAttribute("y"));
 
-								tmp_li.add(tmp);
-							}
+											tmp_li.add(tmp);
+										}
 
-							s.body = tmp_li;
-							logger.debug("Game loaded.");
-						} catch (Exception ex) {
-							logger.error("Loading failed.");
-							ex.printStackTrace();
-						}
+										s.body = tmp_li;
+										logger.debug("Game loaded.");
+									} catch (Exception ex) {
+										logger.error("Loading failed.");
+										ex.printStackTrace();
+									}
 
-						JOptionPane.showMessageDialog(window,
-								"Game loaded from the 'GameState.xml'.");
+									JOptionPane
+											.showMessageDialog(window,
+													"Game loaded from the 'GameState.xml'.");
+
+								});
+
+						loadThread.setName("Snake-loading");
+						loadThread.start();
+
 						load = false;
 					}
 				}

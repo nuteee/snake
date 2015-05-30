@@ -28,12 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pkg.snake.Control.CoreMethods;
+import pkg.snake.Control.SnakeException;
 import pkg.snake.View.Main;
 
 /**
  * The class of the controlled snake.
  */
-public class Snake {
+public class Snake implements Runnable{
 
 	/**
 	 * The Logback logger of the {@code Snake} class.
@@ -288,5 +289,17 @@ public class Snake {
 		len = 1;
 		Main.rightDirection = true;
 		logger.info("New snake created. Returning to Main..");
+	}
+
+	@Override
+	public void run(){
+//		logger.info("Snake thread started.");
+		checkBoard(Main.board);
+		try {
+			move(Main.board);
+		} catch (Exception e) {
+			logger.warn("Snake collided with something.");
+			throw new SnakeException(e);
+		}
 	}
 }

@@ -294,8 +294,8 @@ public class Snake implements Runnable{
 	@Override
 	public void run(){
 //		logger.info("Snake thread started.");
-		checkBoard(Main.board);
 		try {
+			checkBoard(Main.board);
 			move(Main.board);
 		} catch (Exception e) {
 			logger.warn("Snake collided with something.");

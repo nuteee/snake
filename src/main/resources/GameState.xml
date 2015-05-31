@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gamestate downDirection="false" leftDirection="false" rightDirection="true" timer="28.20000000000013" upDirection="false" username="asd">
-    <food id="food" x="32" y="34"/>
-    <snake headX="26" headY="25" id="snake" length="10">
+<gamestate downDirection="false" leftDirection="true" rightDirection="false" timer="45.400000000000375" upDirection="false" username="NuTeeE">
+    <food id="food" x="11" y="44"/>
+    <snake headX="26" headY="25" id="snake" length="14">
         <body>
-            <body_0 x="23" y="6"/>
-            <body_1 x="22" y="6"/>
-            <body_2 x="21" y="6"/>
-            <body_3 x="20" y="6"/>
-            <body_4 x="19" y="6"/>
-            <body_5 x="18" y="6"/>
-            <body_6 x="17" y="6"/>
-            <body_7 x="16" y="6"/>
-            <body_8 x="15" y="6"/>
-            <body_9 x="14" y="6"/>
+            <body_0 x="24" y="9"/>
+            <body_1 x="25" y="9"/>
+            <body_2 x="26" y="9"/>
+            <body_3 x="27" y="9"/>
+            <body_4 x="28" y="9"/>
+            <body_5 x="29" y="9"/>
+            <body_6 x="30" y="9"/>
+            <body_7 x="31" y="9"/>
+            <body_8 x="32" y="9"/>
+            <body_9 x="33" y="9"/>
+            <body_10 x="34" y="9"/>
+            <body_11 x="35" y="9"/>
+            <body_12 x="36" y="9"/>
+            <body_13 x="37" y="9"/>
         </body>
     </snake>
 </gamestate>

@@ -390,16 +390,13 @@ public class Main extends JComponent {
 		logger.info("While loop starting...");
 
 		while (true) {
-			// logger.info("'inGame' value: {}.", inGame);
 			if (inGame) {
-				// logger.info("'pause' value: {}.", pause);
 				if (!pause) {
 					timer += 0.1;
 
 					window.setTitle(String.format(
 							"Time: %.1fs, Size: %d, Name: %s", timer,
 							s.getLen(), username));
-					// logger.info("Title updated.");
 					try {
 						// |--------------|
 						// | MAGIC HAPPENS|
@@ -410,7 +407,7 @@ public class Main extends JComponent {
 						snakeThread.interrupt();
 						logger.warn("The Snake collided with something.");
 						inGame = false;
-						// e.printStackTrace();
+						
 						logger.info("Trying to connect to the database...");
 						dbc.connect(jdbcUrl);
 						logger.info("Connected to the database.");
@@ -638,7 +635,6 @@ public class Main extends JComponent {
 				}
 
 			}
-			// logger.info("Sending the thread to sleep 100 msecs.");
 			Thread.sleep(100);
 			window.setVisible(true);
 			window.repaint();

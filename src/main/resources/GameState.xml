@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gamestate downDirection="false" leftDirection="true" rightDirection="false" timer="45.400000000000375" upDirection="false" username="NuTeeE">
-    <food id="food" x="11" y="44"/>
-    <snake headX="26" headY="25" id="snake" length="14">
+<gamestate downDirection="true" leftDirection="false" rightDirection="false" timer="190.39999999999347" upDirection="false" username="NuTeeE">
+    <food id="food" x="32" y="8"/>
+    <snake headX="26" headY="25" id="snake" length="47">
         <body>
-            <body_0 x="24" y="9"/>
-            <body_1 x="25" y="9"/>
-            <body_2 x="26" y="9"/>
-            <body_3 x="27" y="9"/>
-            <body_4 x="28" y="9"/>
-            <body_5 x="29" y="9"/>
-            <body_6 x="30" y="9"/>
-            <body_7 x="31" y="9"/>
-            <body_8 x="32" y="9"/>
-            <body_9 x="33" y="9"/>
-            <body_10 x="34" y="9"/>
-            <body_11 x="35" y="9"/>
-            <body_12 x="36" y="9"/>
-            <body_13 x="37" y="9"/>
+            <body_0 x="12" y="29"/>
+            <body_1 x="12" y="28"/>
+            <body_2 x="12" y="27"/>
+            <body_3 x="12" y="26"/>
+            <body_4 x="12" y="25"/>
+            <body_5 x="12" y="24"/>
+            <body_6 x="12" y="23"/>
+            <body_7 x="12" y="22"/>
+            <body_8 x="12" y="21"/>
+            <body_9 x="12" y="20"/>
+            <body_10 x="12" y="19"/>
+            <body_11 x="12" y="18"/>
+            <body_12 x="12" y="17"/>
+            <body_13 x="12" y="16"/>
+            <body_14 x="12" y="15"/>
+            <body_15 x="13" y="15"/>
+            <body_16 x="14" y="15"/>
+            <body_17 x="15" y="15"/>
+            <body_18 x="16" y="15"/>
+            <body_19 x="17" y="15"/>
+            <body_20 x="18" y="15"/>
+            <body_21 x="19" y="15"/>
+            <body_22 x="20" y="15"/>
+            <body_23 x="21" y="15"/>
+            <body_24 x="22" y="15"/>
+            <body_25 x="23" y="15"/>
+            <body_26 x="24" y="15"/>
+            <body_27 x="25" y="15"/>
+            <body_28 x="26" y="15"/>
+            <body_29 x="27" y="15"/>
+            <body_30 x="28" y="15"/>
+            <body_31 x="29" y="15"/>
+            <body_32 x="30" y="15"/>
+            <body_33 x="31" y="15"/>
+            <body_34 x="32" y="15"/>
+            <body_35 x="33" y="15"/>
+            <body_36 x="33" y="16"/>
+            <body_37 x="32" y="16"/>
+            <body_38 x="31" y="16"/>
+            <body_39 x="30" y="16"/>
+            <body_40 x="29" y="16"/>
+            <body_41 x="28" y="16"/>
+            <body_42 x="27" y="16"/>
+            <body_43 x="26" y="16"/>
+            <body_44 x="25" y="16"/>
+            <body_45 x="25" y="17"/>
+            <body_46 x="26" y="17"/>
         </body>
     </snake>
 </gamestate>

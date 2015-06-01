@@ -31,8 +31,7 @@ import org.slf4j.LoggerFactory;
 import pkg.snake.View.Main;
 
 /**
- * Extended {@link KeyAdapter} class for listening to pressed keys
- * (directions).
+ * Extended {@link KeyAdapter} class for listening to pressed keys (directions).
  */
 public class Tadapter extends KeyAdapter {
 
@@ -40,7 +39,7 @@ public class Tadapter extends KeyAdapter {
 	 * The Logback logger of the {@code Tadapter} class.
 	 */
 	private static Logger logger = LoggerFactory.getLogger(Tadapter.class);
-	
+
 	/**
 	 * Method for listening to pressed keys (directions).
 	 * 

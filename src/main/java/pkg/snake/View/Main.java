@@ -180,7 +180,7 @@ public class Main extends JComponent {
 					g2d.fillRect(i * 10 + 1, j * 10 + 1, 9, 9);
 					break;
 				case 3:
-					g2d.setColor(new Color(125, 60, 20));
+					g2d.setColor(new Color(255, 0, 0));
 					g2d.fillRect(i * 10 + 1, j * 10 + 1, 9, 9);
 					break;
 				}

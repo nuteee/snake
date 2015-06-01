@@ -172,20 +172,28 @@ public class Snake implements Runnable{
 			body.set(i, this.body.get(i - 1));
 
 		if (Main.leftDirection) {
-			if (board[body.get(0)[0] - 1][body.get(0)[1]].getValue() == 1)
+			if (board[body.get(0)[0] - 1][body.get(0)[1]].getValue() == 1) {
+				board[body.get(0)[0] - 1][body.get(0)[1]].setValue(3);
 				throw new Exception("The Snake collided with itself.");
+			}
 			body.set(0, new Integer[] { body.get(0)[0] - 1, body.get(0)[1] });
 		} else if (Main.rightDirection) {
-			if (board[body.get(0)[0] + 1][body.get(0)[1]].getValue() == 1)
+			if (board[body.get(0)[0] + 1][body.get(0)[1]].getValue() == 1) {
+				board[body.get(0)[0] + 1][body.get(0)[1]].setValue(3);
 				throw new Exception("The Snake collided with itself.");
+			}
 			body.set(0, new Integer[] { body.get(0)[0] + 1, body.get(0)[1] });
 		} else if (Main.upDirection) {
-			if (board[body.get(0)[0]][body.get(0)[1] - 1].getValue() == 1)
+			if (board[body.get(0)[0]][body.get(0)[1] - 1].getValue() == 1) {
+				board[body.get(0)[0]][body.get(0)[1] - 1].setValue(3);
 				throw new Exception("The Snake collided with itself.");
+			}
 			body.set(0, new Integer[] { body.get(0)[0], body.get(0)[1] - 1 });
 		} else if (Main.downDirection) {
-			if (board[body.get(0)[0]][body.get(0)[1] + 1].getValue() == 1)
+			if (board[body.get(0)[0]][body.get(0)[1] + 1].getValue() == 1) {
+				board[body.get(0)[0]][body.get(0)[1] + 1].setValue(3);
 				throw new Exception("The Snake collided with itself.");
+			}
 			body.set(0, new Integer[] { body.get(0)[0], body.get(0)[1] + 1 });
 		}
 		// logger.info("End of the 'move()' method of the Snake object.");
@@ -267,6 +275,8 @@ public class Snake implements Runnable{
 		for (int i = 0; i < board.length; i++)
 			for (int j = 0; j < board[i].length; j++) {
 				if (board[i][j].getValue() == 2)
+					continue;
+				if(board[i][j].getValue() == 3)
 					continue;
 				board[i][j].setValue(0);
 			}
